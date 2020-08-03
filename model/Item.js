@@ -56,7 +56,6 @@ const ItemSchema = new Schema({
       },
       like: [
         {
-          id: String,
           userName: String,
           userPhoto: String,
         },
@@ -64,20 +63,27 @@ const ItemSchema = new Schema({
 
       commentSection: [
         {
+          userName: {
+            type: String,
+            required: true,
+          },
+          userPhoto: String,
           comment: {
             type: String,
           },
           like: [
             {
-              id: String,
-              userId: String,
+              userPhoto: String,
+              userName: String,
             },
           ],
           time: {
             type: String,
             default: new Date().toString(),
           },
-          reply: [{ content: String }],
+          reply: [
+            { content: String, userName: { type: String, required: true } },
+          ],
         },
       ],
     },

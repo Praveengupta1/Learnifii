@@ -12,6 +12,12 @@ router
       .sort({ date: -1 })
       .then((item) => res.json(item));
   })
+  // delete group
+  .delete("/group", (req, res) => {
+    Item.deleteOne({ _id: req.body.id })
+      .then((response) => res.json(response))
+      .catch((error) => res.json((error) => res.json(error)));
+  })
   // create group route
   .post("/group", (req, res) => {
     const item = new Item({
@@ -133,9 +139,40 @@ router.put("/share", (req, res) => {
     .catch((error) => res.json(error));
 });
 
+// make a comment
+
 router.put("/comment", (req, res) => {
-  Item.findOne({ "groupPost._id": req.body.id })
+  Item.updateOne(
+    { "groupPost._id": req.body.id },
+    {
+      $push: {
+        "groupPost.$.commentSection": {
+          $each: [{ comment: req.body.comment, userName: req.body.userName }],
+        },
+      },
+    }
+  )
     .then((response) => res.json(response))
     .catch((error) => res.json(error));
 });
+
+// make a like a comment
+
+router.put("/comment/like", (req, res) => {
+  Item.updateOne(
+    { "groupPost._id": req.body.id },
+    {
+      $push: {
+        groupPost: {
+          "commentSection.$.like": {
+            $each: [{ userName: req.body.userName }],
+          },
+        },
+      },
+    }
+  )
+    .then((response) => res.json(response))
+    .catch((error) => res.json(error));
+});
+
 module.exports = router;
