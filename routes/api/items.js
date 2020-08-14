@@ -1,9 +1,73 @@
 const express = require("express");
 const router = express.Router();
+const path = require("path");
+const crypto = require("crypto");
+const mongoose = require("mongoose");
+const multer = require("multer");
+const GridFsStorage = require("multer-gridfs-storage");
+const Grid = require("gridfs-stream");
 // Item Model
 
 const Item = require("../../model/Item");
-const { response } = require("express");
+// image uploadation
+// mongo uri
+const mongoURI = require("../../config/key").MongoURI;
+
+// Create mongo connection
+const conn = mongoose.createConnection(mongoURI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+
+// Init gfs
+let gfs;
+
+conn.once("open", () => {
+  gfs = Grid(conn.db, mongoose.mongo);
+  gfs.collection("uploads");
+});
+// Create storage engine
+const storage = new GridFsStorage({
+  url: mongoURI,
+  file: (req, file) => {
+    return new Promise((resolve, reject) => {
+      crypto.randomBytes(16, (err, buf) => {
+        if (err) {
+          return reject(err);
+        }
+        const filename = buf.toString("hex") + path.extname(file.originalname);
+        const fileInfo = {
+          filename: filename,
+          bucketName: "uploads",
+        };
+        resolve(fileInfo);
+      });
+    });
+  },
+});
+const upload = multer({ storage });
+//@GET  for image
+router.get("/image/:filename", (req, res) => {
+  gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
+    // Check if file
+    if (!file || file.length === 0) {
+      return res.status(404).json({
+        err: "No file exists",
+      });
+    }
+
+    // Check if image
+    if (file.contentType === "image/jpeg" || file.contentType === "image/png") {
+      // Read output to browser
+      const readstream = gfs.createReadStream(file.filename);
+      readstream.pipe(res);
+    } else {
+      res.status(404).json({
+        err: "Not an image",
+      });
+    }
+  });
+});
 
 // grab all group  and create a group
 router
@@ -66,8 +130,29 @@ router
   });
 
 // write a post
-router
-  .put("/grouppost", (req, res) => {
+router.put("/grouppost", upload.single("file"), (req, res) => {
+  if (req.file) {
+    Item.updateOne(
+      { _id: req.body.id },
+      {
+        $push: {
+          groupPost: {
+            $each: [
+              {
+                userName: req.body.userName,
+                content: req.body.content,
+                file: req.file.filename,
+                fileType: req.file.contentType,
+              },
+            ],
+          },
+        },
+      },
+      { upsert: true }
+    )
+      .then((response) => res.json(response))
+      .catch((error) => res.json(error));
+  } else {
     Item.updateOne(
       { _id: req.body.id },
       {
@@ -86,16 +171,34 @@ router
     )
       .then((response) => res.json(response))
       .catch((error) => res.json(error));
-  })
-  // delete a post
-  .delete("/grouppost", (req, res) => {
-    Item.updateOne(
-      { groupPost: { $elemMatch: { _id: req.body.id } } },
-      { $pull: { groupPost: { _id: req.body.id } } }
-    )
-      .then((response) => res.json(response))
-      .catch((error) => res.json(error));
-  });
+  }
+});
+
+// update post
+router.put("/postupdate", (req, res) => {
+  console.log(req.body);
+  Item.updateOne(
+    { "groupPost._id": req.body.id },
+    {
+      "groupPost.$.content": req.body.content,
+      // "groupPost.$.file": req.file.filename,
+      // "groupPost.$.fileType": req.file.contentType,
+    }
+  )
+    .then((response) => res.json(response))
+    .catch((error) => res.json(error));
+});
+// delete a post
+router.put("/grouppostde", (req, res) => {
+  Item.updateOne(
+    { groupPost: { $elemMatch: { _id: req.body.id } } },
+    { $pull: { groupPost: { _id: req.body.id } } }
+  )
+    .then((response) => {
+      res.json(response);
+    })
+    .catch((error) => res.json(error));
+});
 
 // like post routes
 
@@ -147,10 +250,11 @@ router.put("/comment", (req, res) => {
     {
       $push: {
         "groupPost.$.commentSection": {
-          $each: [{ comment: req.body.comment, userName: req.body.userName }],
+          $each: [{ like: { $each: [{ userName: req.body.userName }] } }],
         },
       },
-    }
+    },
+    { multi: true }
   )
     .then((response) => res.json(response))
     .catch((error) => res.json(error));
@@ -163,10 +267,8 @@ router.put("/comment/like", (req, res) => {
     { "groupPost._id": req.body.id },
     {
       $push: {
-        groupPost: {
-          "commentSection.$.like": {
-            $each: [{ userName: req.body.userName }],
-          },
+        "groupPost.$.commentSection": {
+          $each: [{ comment: req.body.comment, userName: req.body.userName }],
         },
       },
     }

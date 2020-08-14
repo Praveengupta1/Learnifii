@@ -1,4 +1,4 @@
-const ItemSchema = new Schema({
+const newItem = new Item({
   groupName: "Leanifii",
   followerGroupUser: [
     {

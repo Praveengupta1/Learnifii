@@ -39,10 +39,10 @@ const ItemSchema = new Schema({
       userPhoto: {
         type: String,
       },
-      video: {
+      file: {
         type: String,
       },
-      image: {
+      fileType: {
         type: String,
       },
       content: {
