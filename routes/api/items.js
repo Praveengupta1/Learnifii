@@ -131,6 +131,7 @@ router
 
 // write a post
 router.put("/grouppost", upload.single("file"), (req, res) => {
+  console.log(req.file);
   if (req.file) {
     Item.updateOne(
       { _id: req.body.id },
