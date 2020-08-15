@@ -96,7 +96,7 @@ function Cards({ posts }) {
               <CardMedia
                 key={post._id}
                 className={classes.media}
-                image={`http://localhost:4000/api/image/${post.file}`}
+                image={`https://frozen-inlet-78997.herokuapp.com/api/image/${post.file}`}
                 title="Paella dish"
               />
             )}
@@ -104,7 +104,7 @@ function Cards({ posts }) {
               <CardMedia
                 key={post._id}
                 className={classes.media}
-                image={`http://localhost:4000/api/image/${post.file}`}
+                image={`https://frozen-inlet-78997.herokuapp.com/api/image/${post.file}`}
                 title="Paella dish"
               />
             )}
