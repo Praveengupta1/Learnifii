@@ -1,0 +1,158 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: auto;
+  max-width: 900px;
+  padding: 10px;
+  color: gray;
+  font-family: Roboto;
+}
+
+.search-box {
+  height: 55px;
+  width: 100%;
+  box-shadow: 0px 2px 10px rgba(29, 34, 47, 0.15);
+}
+
+.search-div {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  margin: 1px;
+  align-items: center;
+}
+
+.search-icon {
+  position: relative;
+  margin: 5px;
+  font-size: 25px;
+  color: gray;
+}
+
+.search-input {
+  height: 55px;
+  width: 98%;
+  border: 0;
+  font-size: 22px;
+  font-weight: 100;
+}
+
+.search-input:focus {
+  outline: 0;
+}
+
+.following-heading {
+  font-weight: 800;
+  font-size: 18px;
+
+  letter-spacing: 0px;
+  color: gray;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.avatar {
+  display: flex;
+  align-items: center;
+}
+
+.follow-button {
+  display: flex;
+  align-items: center;
+}
+
+.follow-button .icon {
+  font-size: 40px;
+  font-weight: 600;
+  padding: 5px;
+}
+
+.follow-button .para {
+  font-size: 30px;
+  padding: 5px;
+}
+
+.location {
+  display: inline-flex;
+  font-size: 14px;
+}
+
+.write-post {
+  margin: 1% 2% 2% 0;
+}
+
+.write-post textarea {
+  width: 100%;
+  font-size: 18px;
+  border: 0;
+  line-height: 1.5rem;
+}
+
+.write-post textarea:focus {
+  outline: 0;
+}
+
+.comment-input-file {
+  margin-left: 3%;
+}
+
+.input-icon {
+  padding: 0px;
+  border: 1px solid gray;
+  display: inline-flex;
+  border-radius: 10px;
+  margin: 10px;
+}
+
+.like-avatar {
+  display: flex;
+  margin-left: 16px;
+}
+
+.like-name {
+  margin: 2px 2px 2px 10px;
+}
+
+.like-name p {
+  margin: 0;
+  font-weight: 600;
+}
+
+.comment-people {
+  margin-top: 20px;
+  display: flex;
+}
+
+.comment-people .name {
+  display: flex;
+  width: 100%;
+}
+
+.comment-people .name div {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+
+.comment-people .name div:nth-of-type(1) {
+  width: 70%;
+}
+
+.comment-people .name div:nth-of-type(2) {
+  display: list-item;
+  margin-right: 20px;
+}
+
+.comment-people .name div:nth-of-type(3) {
+  margin-right: 20px;
+}
+
+.comment-people-name {
+  margin: auto 10px;
+}
+
+.comment-people-name h4,
+.comment-people-name p {
+  margin: 0;
+}

@@ -25,10 +25,11 @@ mongoose.connect(
 app.use("/api", items);
 // Serve static assets if in Prduction
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static("Frontend/build"));
+  // Set Static folder
+  app.use(express.static("clint/build"));
 
   app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "Frontend", "build", "index.html"));
+    res.sendFile(path.resolve(__dirname, "clint", "build", "index.html"));
   });
 }
 const PORT = process.env.PORT || 4000;

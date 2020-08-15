@@ -7,9 +7,9 @@
     "clint-install": "npm install --prefix clint",
     "start": "node server.js",
     "server": "nodemon server.js",
-    "clint": "npm start --prefix ./Frontend",
+    "clint": "npm start --prefix ./clint",
     "dev": "concurrently \"npm run server\" \"npm run clint\"",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix Frontend && npm run build"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix clint && npm run build --prefix clint"
   },
   "keywords": [],
   "author": "",
