@@ -1,5 +1,6 @@
 * {
   box-sizing: border-box;
+  font-family: 'Roboto Slab', serif;
 }
 
 body {
@@ -7,7 +8,11 @@ body {
   max-width: 900px;
   padding: 10px;
   color: gray;
-  font-family: Roboto;
+
+}
+
+label {
+  margin-bottom: 0;
 }
 
 .search-box {
@@ -78,7 +83,10 @@ body {
   display: inline-flex;
   font-size: 14px;
 }
-
+.content{
+  font-size: 20px;
+  margin: 10px;
+}
 .write-post {
   margin: 1% 2% 2% 0;
 }
@@ -155,4 +163,36 @@ body {
 .comment-people-name h4,
 .comment-people-name p {
   margin: 0;
+}
+
+
+/* post  style  */
+
+.post-image {
+  width: 100%;
+}
+
+
+/* set media querry  properties at 992px */
+@media screen and (max-width: 992px) {
+  .post-image {
+    height: 550px;
+    width: 100%;
+  }
+}
+
+/* set media querry  properties at 600*/
+@media screen and (max-width: 600px) {
+  .post-image {
+    height: 500px;
+    width: 100%;
+  }
+}
+
+/* set media querry  properties at 600*/
+@media screen and (max-width: 400px) {
+  .post-image {
+    height: 400px;
+    width: 100%;
+  }
 }

@@ -16,15 +16,17 @@ function Posts({ id }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    const formData = new FormData();
-    formData.append("id", id);
-    formData.append("userName", "Praveen");
-    formData.append("content", content);
-    formData.append("file", file);
-    dispatch(groupPost(formData));
-    setcontent("");
-    setFile("");
+    if(file || content){
+      const formData = new FormData();
+      formData.append("id", id);
+      formData.append("userName", "Praveen");
+      formData.append("content", content);
+      formData.append("file", file);
+      dispatch(groupPost(formData));
+      setcontent("");
+      setFile("");
+    }
+    
   };
 
   return (

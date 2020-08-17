@@ -16,9 +16,7 @@ mongoose.connect(
   db,
   { useNewUrlParser: true, useUnifiedTopology: true },
   (err) =>
-    err
-      ? console.log(" any error with db")
-      : console.log("Mongoose database connected ")
+    err ? console.log(err) : console.log("Mongoose database connected ")
 );
 
 // use routes

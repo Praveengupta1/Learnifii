@@ -18,6 +18,9 @@ export const useStyles = makeStyles((theme) => ({
     "& .Mui-selected": {
       color: "white",
       background: "linear-gradient(45deg, #f07114 30%,  #f07114 90%)",
+      "&:focus": {
+        outline: "none",
+      },
     },
 
     "& .MuiTabPanel-root": {
@@ -33,6 +36,9 @@ export const useStyles = makeStyles((theme) => ({
     height: 48,
     padding: "0 px",
     fontWeight: "400",
+    "&:focus": {
+      outline: "0",
+    },
   },
 
   Avatar1: {

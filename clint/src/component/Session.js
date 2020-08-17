@@ -74,7 +74,6 @@ export default function ScrollableTabsButtonForce() {
       {groupInfo.groupdata.map((group, index) => (
         <TabPanel key={index} value={value} index={index}>
           <Follower users={group.followerGroupUser} />
-
           <Post id={group._id} />
           <Card posts={group.groupPost} id={group._id} />
         </TabPanel>

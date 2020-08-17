@@ -56,14 +56,14 @@ router.get("/image/:filename", (req, res) => {
       });
     }
 
-    // Check if image
-    if (file.contentType === "image/jpeg" || file.contentType === "image/png") {
+    // Check if file
+    if (file) {
       // Read output to browser
       const readstream = gfs.createReadStream(file.filename);
       readstream.pipe(res);
     } else {
       res.status(404).json({
-        err: "Not an image",
+        err: "Not an file",
       });
     }
   });
@@ -104,7 +104,7 @@ router
 router
   .put("/followgroup", (req, res) => {
     Item.updateOne(
-      { groupName: req.body.groupName },
+      { _id: req.body.id },
       {
         $push: {
           followerGroupUser: {
