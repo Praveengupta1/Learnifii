@@ -109,14 +109,14 @@ function Post({ post }) {
         {post.fileType === "image/png" && (
           <img
             className="post-image"
-            src={`http://localhost:4000/api/image/${post.file}`}
+            src={`/api/image/${post.file}`}
             alt=" "
           />
         )}
         {post.fileType === "image/jpeg" && (
           <img
             className="post-image"
-            src={`http://localhost:4000/api/image/${post.file}`}
+            src={`/api/image/${post.file}`}
             alt=" "
           />
         )}
