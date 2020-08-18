@@ -29,6 +29,7 @@ function Post({ post }) {
   const [modalDel, setmodalDel] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [isEditInput, setIsEditInput] = useState(post.content);
+  const [isEditFile, setIsEditFile] = useState("");
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -80,6 +81,21 @@ function Post({ post }) {
   const handleEditClose = () => {
     setIsEdit(false);
   };
+  const handleEditSubmit = (e) => {
+    e.preventDefault();
+    setIsEdit(false);
+   console.log(e.target)
+    // if(file || content){
+    //   const formData = new FormData();
+    //   formData.append("id", id);
+    //   formData.append("userName", "Praveen");
+    //   formData.append("content", content);
+    //   formData.append("file", file);
+    //   dispatch(groupPost(formData));
+    //   setcontent("");
+    //   setFile("");
+    // }
+  };
   return (
     <Card key={post._id} className={classes.cards}>
       <CardHeader
@@ -92,7 +108,7 @@ function Post({ post }) {
           <React.Fragment style={{ display: "none" }}>
             <IconButton
               aria-label="settings"
-              className={classes.root}
+              className={classes.button}
               onClick={handleClick}
             >
               <MoreVertIcon />
@@ -146,11 +162,34 @@ function Post({ post }) {
       <CardContent>
         {post.content ? (
           isEdit ? (
-            <input
-              type="text"
-              value={isEditInput}
-              onChange={(e) => setIsEditInput(e.target.value)}
-            />
+            <div>
+              <form onSubmit={handleEditSubmit}>
+                <div className="edit-form">
+                  <input
+                    type="text"
+                    value={isEditInput}
+                    onChange={(e) => setIsEditInput(e.target.value)}
+                  />
+                  <input
+                    type="file"
+                    accept="image/*, video/*"
+                    onChange={(e) => setIsEditFile(e.target.files[0])}
+                  />
+                  <div className="edit-button">
+                  <Button
+                    onClick={() => setIsEdit(false)}
+                    
+                    size="sm"
+                  >
+                    Cancel
+                  </Button>
+                  <Button size="sm" type="submit" >
+                    Save
+                  </Button>
+                  </div>
+                </div>
+              </form>
+            </div>
           ) : (
             <Typography variant="body2" color="textSecondary" component="p">
               <div className="content">{post.content}</div>

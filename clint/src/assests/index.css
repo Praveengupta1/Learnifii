@@ -1,6 +1,6 @@
 * {
   box-sizing: border-box;
-  font-family: 'Roboto Slab', serif;
+  font-family: "Roboto ", sans-serif;
 }
 
 body {
@@ -8,7 +8,6 @@ body {
   max-width: 900px;
   padding: 10px;
   color: gray;
-
 }
 
 label {
@@ -83,7 +82,7 @@ label {
   display: inline-flex;
   font-size: 14px;
 }
-.content{
+.content {
   font-size: 20px;
   margin: 10px;
 }
@@ -165,14 +164,57 @@ label {
   margin: 0;
 }
 
-
 /* post  style  */
 
 .post-image {
   width: 100%;
 }
 
+.edit-form {
+  width: 100%;
+}
+.edit-form input[type="text"] {
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid gray;
+  margin-bottom: 5px;
+}
+.edit-form input[type="text"]:focus {
+  outline: none;
+  border-bottom: 2px solid #f07114;
+}
 
+.edit-form input[type="file"]:focus {
+  outline: none;
+  border-bottom: 2px solid #f07114;
+}
+.edit-button {
+  display : contents;
+
+}
+.edit-button Button {
+  text-align: right;
+  margin: 3px;
+  background-color: white;
+  color: black;
+  border: 1px solid #f07114;
+}
+.edit-button Button:hover {
+  background-color: #f07114;
+  color: white;
+  border-color: #f07114;
+}
+.edit-button Button:focus {
+  background-color: #f07114;
+  color: white;
+  border-color: #f07114;
+  box-shadow : 0
+}
+.edit-button Button:active {
+  background-color: #f07114;
+  color: white;
+  border-color: #f07114;
+}
 /* set media querry  properties at 992px */
 @media screen and (max-width: 992px) {
   .post-image {

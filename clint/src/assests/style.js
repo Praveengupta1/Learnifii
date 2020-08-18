@@ -40,6 +40,16 @@ export const useStyles = makeStyles((theme) => ({
       outline: "0",
     },
   },
+  button: {
+    borderRadius: 3,
+    height: 48,
+    border: 0,
+    padding: "0px",
+    fontWeight: "400",
+    "&:focus": {
+      outline: "0",
+    },
+  },
 
   Avatar1: {
     "& > *": {
