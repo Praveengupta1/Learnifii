@@ -21,11 +21,14 @@ import AvatarGroup from "@material-ui/lab/AvatarGroup";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import { deletePost } from "../Action/actionType";
 import { useDispatch } from "react-redux";
+import { Modal, Button } from "react-bootstrap";
 
 function Post({ post }) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
-
+  const [modalDel, setmodalDel] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const [isEditInput, setIsEditInput] = useState(post.content);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -34,14 +37,19 @@ function Post({ post }) {
     setAnchorEl(null);
   };
   const handleDelete = (e) => {
-    handleClose();
-
     const data = {
       id: e.target.id,
     };
-
     dispatch(deletePost(data));
+    modalDelClose();
   };
+
+  const modalDelClose = () => setmodalDel(false);
+  const modalDelShow = () => {
+    handleClose();
+    setmodalDel(true);
+  };
+
   const month = [
     "Jan",
     "Feb",
@@ -64,6 +72,14 @@ function Post({ post }) {
     let dateFormated = mName + " " + dName;
     return dateFormated;
   };
+
+  const handleEdit = () => {
+    setIsEdit(true);
+    handleClose();
+  };
+  const handleEditClose = () => {
+    setIsEdit(false);
+  };
   return (
     <Card key={post._id} className={classes.cards}>
       <CardHeader
@@ -73,8 +89,12 @@ function Post({ post }) {
           </Avatar>
         }
         action={
-          <React.Fragment>
-            <IconButton aria-label="settings" className={classes.root} onClick={handleClick}>
+          <React.Fragment style={{ display: "none" }}>
+            <IconButton
+              aria-label="settings"
+              className={classes.root}
+              onClick={handleClick}
+            >
               <MoreVertIcon />
             </IconButton>
             <Menu
@@ -89,11 +109,34 @@ function Post({ post }) {
                 },
               }}
             >
-              <MenuItem id={post._id} onClick={handleDelete}>
-                Delete
+              <MenuItem onClick={modalDelShow}>Delete</MenuItem>
+              <MenuItem id={post._id} onClick={handleEdit}>
+                Edit
               </MenuItem>
-              <MenuItem id={post._id}>Edit</MenuItem>
             </Menu>
+            <Modal show={modalDel} onHide={modalDelClose} centered>
+              <Modal.Header closeButton>
+                <Modal.Title>Delete Post</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>Are you sure, delete this post</Modal.Body>
+              <Modal.Footer>
+                <Button
+                  variant="outline-primary"
+                  size="sm"
+                  onClick={modalDelClose}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  variant="outline-danger"
+                  size="sm"
+                  id={post._id}
+                  onClick={handleDelete}
+                >
+                  Delete
+                </Button>
+              </Modal.Footer>
+            </Modal>
           </React.Fragment>
         }
         title={post.userName}
@@ -102,24 +145,45 @@ function Post({ post }) {
 
       <CardContent>
         {post.content ? (
-          <Typography variant="body2" color="textSecondary" component="p">
-            <div className="content">{post.content}</div>
-          </Typography>
+          isEdit ? (
+            <input
+              type="text"
+              value={isEditInput}
+              onChange={(e) => setIsEditInput(e.target.value)}
+            />
+          ) : (
+            <Typography variant="body2" color="textSecondary" component="p">
+              <div className="content">{post.content}</div>
+            </Typography>
+          )
         ) : null}
         {post.fileType === "image/png" && (
-          <img
-            className="post-image"
-            src={`/api/image/${post.file}`}
-            alt=" "
-          />
+          <div className="image-card">
+            <img
+              className="post-image"
+              src={`/api/image/${post.file}`}
+              alt=" "
+            />
+          </div>
         )}
         {post.fileType === "image/jpeg" && (
-          <img
-            className="post-image"
-            src={`/api/image/${post.file}`}
-            alt=" "
-          />
+          <div className="image-card">
+            <img
+              className="post-image"
+              src={`/api/image/${post.file}`}
+              alt=" "
+            />
+          </div>
         )}
+        {/* {post.fileType === "application/octet-stream" && (
+          <div className="image-card">
+            <img
+              className="post-image"
+              src={`/api/image/${post.file}`}
+              alt=" "
+            />
+          </div>
+        )} */}
       </CardContent>
       {/* {post.fileType === "image/png" && (
               <CardMedia
@@ -175,7 +239,7 @@ function Post({ post }) {
               className={classes.avatarpost}
               style={{ height: "60px", width: "60px" }}
             >
-              R
+              {post.userName.split("")[0]}
             </Avatar>
             <input type="text" />
           </div>
@@ -210,9 +274,9 @@ function Post({ post }) {
 function Cards({ posts }) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
- 
-  const sortpost = posts.sort((a, b) => new Date(b.time)-new Date(a.time))
-  
+
+  const sortpost = posts.sort((a, b) => new Date(b.time) - new Date(a.time));
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -231,8 +295,7 @@ function Cards({ posts }) {
 
   return (
     <Fragment>
-      {sortpost
-        .map((post) => (post ? <Post post={post} /> : null))}
+      {sortpost.map((post) => (post ? <Post post={post} /> : null))}
     </Fragment>
   );
 }
