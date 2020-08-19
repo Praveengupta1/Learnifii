@@ -2,6 +2,29 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Badge from "@material-ui/core/Badge";
 import { indigo } from "@material-ui/core/colors";
 export const useStyles = makeStyles((theme) => ({
+  TabSkeleton : {
+    marginTop: "10px",
+    flexGrow: 1,
+    width: "100%",
+    backgroundColor: theme.palette.background.paper,
+    "& .MuiTabs-indicator": {
+      background: "white",
+    },
+    "& .MuiTab-textColorPrimary": {
+      margin: "10px",
+    },
+    "& .Mui-selected": {
+      color: "white",
+      background: "white",
+      "&:focus": {
+        outline: "none",
+      },
+    },
+
+    "& .MuiTabPanel-root": {
+      padding: "0",
+    },
+  },
   Tabs: {
     marginTop: "10px",
     flexGrow: 1,

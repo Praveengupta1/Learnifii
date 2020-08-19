@@ -270,3 +270,32 @@ label {
     width: 100%;
   }
 }
+ /* Skeleton css */
+ .Skeleton {
+  margin: auto;
+  padding: 10px;
+  max-width: 900px;
+  padding: 10px;
+  color: gray;
+}
+
+.card-skeleton {
+  padding: 10px;
+  border: 1px solid lightgray;
+}
+.discreption-skeleton *{
+  margin : 5px ;
+}
+.profile-skeleton {
+  display: flex;
+}
+.image-skeleton{
+  margin : 10px;
+}
+.action-skeleton{
+  display: flex
+}
+.action-skeleton *{
+ margin: 10px ;
+
+} 
