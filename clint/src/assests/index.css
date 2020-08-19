@@ -10,6 +10,14 @@ body {
   color: gray;
 }
 
+button,
+input,
+optgroup,
+select,
+textarea {
+  font-family: "Roboto", sands-serif;
+}
+
 label {
   margin-bottom: 0;
 }
@@ -82,10 +90,12 @@ label {
   display: inline-flex;
   font-size: 14px;
 }
+
 .content {
   font-size: 20px;
   margin: 10px;
 }
+
 .write-post {
   margin: 1% 2% 2% 0;
 }
@@ -170,51 +180,73 @@ label {
   width: 100%;
 }
 
-.edit-form {
-  width: 100%;
-}
-.edit-form input[type="text"] {
-  width: 100%;
-  border: 0;
-  border-bottom: 1px solid gray;
+.edit-text {
+  border: 1px solid gray;
+  height: 100px;
+  width: 98%;
+  margin: auto;
+  border-radius: 10px;
+
   margin-bottom: 5px;
 }
-.edit-form input[type="text"]:focus {
-  outline: none;
-  border-bottom: 2px solid #f07114;
+
+.edit-text textarea[type="text"] {
+  width: 100%;
+  padding: 10px;
+  height: 100%;
+  border: 0;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
-.edit-form input[type="file"]:focus {
-  outline: none;
-  border-bottom: 2px solid #f07114;
+.edit-text textarea[type="text"]:focus {
+  outline: 0ch;
 }
-.edit-button {
-  display : contents;
 
+.edit-file {
+  width: 98%;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
 }
-.edit-button Button {
-  text-align: right;
+
+.edit-file div:nth-of-type(1) input[type="file"] {
+  width: 100px;
+}
+
+.edit-file div:nth-of-type(2) {
+  margin-top: auto;
+}
+
+.button {
   margin: 3px;
   background-color: white;
   color: black;
   border: 1px solid #f07114;
 }
-.edit-button Button:hover {
+
+.button:hover,
+.button:focus {
   background-color: #f07114;
   color: white;
   border-color: #f07114;
 }
-.edit-button Button:focus {
+
+.btn-primary:not(:disabled):not(.disabled).active,
+.btn-primary:not(:disabled):not(.disabled):active,
+.show > .btn-primary.dropdown-toggle {
+  color: #fff;
+  background-color: #f07114;
+  border-color: #f07114;
+}
+
+.button:active {
+  box-shadow: 2px 12px 35px -9px rgba(46, 74, 117, 1);
   background-color: #f07114;
   color: white;
   border-color: #f07114;
-  box-shadow : 0
 }
-.edit-button Button:active {
-  background-color: #f07114;
-  color: white;
-  border-color: #f07114;
-}
+
 /* set media querry  properties at 992px */
 @media screen and (max-width: 992px) {
   .post-image {

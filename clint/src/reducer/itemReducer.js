@@ -36,7 +36,7 @@ const itemReducer = (state = initialState, action) => {
     case UPDATE_POST:
       return {
         ...state,
-        loading: false,
+        loading: true,
       };
     default:
       return state;

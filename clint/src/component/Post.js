@@ -16,7 +16,7 @@ function Posts({ id }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if(file || content){
+    if (file || content) {
       const formData = new FormData();
       formData.append("id", id);
       formData.append("userName", "Praveen");
@@ -26,7 +26,6 @@ function Posts({ id }) {
       setcontent("");
       setFile("");
     }
-    
   };
 
   return (
@@ -46,11 +45,10 @@ function Posts({ id }) {
 
               <div className="input-icon">
                 <input
-                  accept="image/*, video/*"
+                  accept="image/jpeg, image/png"
                   className={classes.input}
                   id="icon-button-file"
                   type="file"
-                  onChange={(e) => setFile(e.target.files[0])}
                 />
                 <label htmlFor="icon-button-file">
                   <IconButton
@@ -58,7 +56,7 @@ function Posts({ id }) {
                     aria-label="upload picture"
                     component="span"
                   >
-                    <CameraAltIcon className={classes.iconstyle} />
+                    <CameraAltIcon />
                   </IconButton>
                 </label>
               </div>

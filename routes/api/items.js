@@ -176,18 +176,29 @@ router.put("/grouppost", upload.single("file"), (req, res) => {
 });
 
 // update post
-router.put("/postupdate", (req, res) => {
-  console.log(req.body);
-  Item.updateOne(
-    { "groupPost._id": req.body.id },
-    {
-      "groupPost.$.content": req.body.content,
-      // "groupPost.$.file": req.file.filename,
-      // "groupPost.$.fileType": req.file.contentType,
-    }
-  )
-    .then((response) => res.json(response))
-    .catch((error) => res.json(error));
+router.put("/postupdate", upload.single("file"), (req, res) => {
+  console.log(req.file);
+  if (req.file) {
+    Item.updateOne(
+      { "groupPost._id": req.body.id },
+      {
+        "groupPost.$.content": req.body.content,
+        "groupPost.$.file": req.file.filename,
+        "groupPost.$.fileType": req.file.contentType,
+      }
+    )
+      .then((response) => res.json(response))
+      .catch((error) => res.json(error));
+  } else {
+    Item.updateOne(
+      { "groupPost._id": req.body.id },
+      {
+        "groupPost.$.content": req.body.content,
+      }
+    )
+      .then((response) => res.json(response))
+      .catch((error) => res.json(error));
+  }
 });
 // delete a post
 router.put("/grouppostde", (req, res) => {

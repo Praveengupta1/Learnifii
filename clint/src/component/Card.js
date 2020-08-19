@@ -19,15 +19,16 @@ import { useStyles } from "../assests/style";
 import CommentIcon from "@material-ui/icons/Comment";
 import AvatarGroup from "@material-ui/lab/AvatarGroup";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
-import { deletePost } from "../Action/actionType";
+import { deletePost, updatePost } from "../Action/actionType";
 import { useDispatch } from "react-redux";
 import { Modal, Button } from "react-bootstrap";
+import CameraAltIcon from "@material-ui/icons/CameraAlt";
 
 function Post({ post }) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const [modalDel, setmodalDel] = useState(false);
-  const [isEdit, setIsEdit] = useState(false);
+  const [modalEdit, setmodalEdit] = useState(false);
   const [isEditInput, setIsEditInput] = useState(post.content);
   const [isEditFile, setIsEditFile] = useState("");
   const handleClick = (event) => {
@@ -49,6 +50,14 @@ function Post({ post }) {
   const modalDelShow = () => {
     handleClose();
     setmodalDel(true);
+  };
+
+  const modalEditClose = () => {
+    setmodalEdit(false);
+  };
+  const modalEditShow = () => {
+    handleClose();
+    setmodalEdit(true);
   };
 
   const month = [
@@ -73,28 +82,20 @@ function Post({ post }) {
     let dateFormated = mName + " " + dName;
     return dateFormated;
   };
-
-  const handleEdit = () => {
-    setIsEdit(true);
-    handleClose();
-  };
-  const handleEditClose = () => {
-    setIsEdit(false);
-  };
   const handleEditSubmit = (e) => {
     e.preventDefault();
-    setIsEdit(false);
-   console.log(e.target)
-    // if(file || content){
-    //   const formData = new FormData();
-    //   formData.append("id", id);
-    //   formData.append("userName", "Praveen");
-    //   formData.append("content", content);
-    //   formData.append("file", file);
-    //   dispatch(groupPost(formData));
-    //   setcontent("");
-    //   setFile("");
-    // }
+    if (isEditInput || isEditFile) {
+      console.log(isEditFile, isEditInput);
+      const formData = new FormData();
+      formData.append("id", e.target.id);
+      formData.append("content", isEditInput);
+      formData.append("file", isEditFile);
+
+      dispatch(updatePost(formData));
+
+      setmodalEdit(false);
+      setIsEditFile("");
+    }
   };
   return (
     <Card key={post._id} className={classes.cards}>
@@ -105,7 +106,7 @@ function Post({ post }) {
           </Avatar>
         }
         action={
-          <React.Fragment style={{ display: "none" }}>
+          <React.Fragment key={post._id}>
             <IconButton
               aria-label="settings"
               className={classes.button}
@@ -126,25 +127,20 @@ function Post({ post }) {
               }}
             >
               <MenuItem onClick={modalDelShow}>Delete</MenuItem>
-              <MenuItem id={post._id} onClick={handleEdit}>
-                Edit
-              </MenuItem>
+              <MenuItem onClick={modalEditShow}>Edit</MenuItem>
             </Menu>
+
             <Modal show={modalDel} onHide={modalDelClose} centered>
               <Modal.Header closeButton>
                 <Modal.Title>Delete Post</Modal.Title>
               </Modal.Header>
               <Modal.Body>Are you sure, delete this post</Modal.Body>
               <Modal.Footer>
-                <Button
-                  variant="outline-primary"
-                  size="sm"
-                  onClick={modalDelClose}
-                >
+                <Button className="button" size="sm" onClick={modalDelClose}>
                   Cancel
                 </Button>
                 <Button
-                  variant="outline-danger"
+                  className="button"
                   size="sm"
                   id={post._id}
                   onClick={handleDelete}
@@ -153,6 +149,46 @@ function Post({ post }) {
                 </Button>
               </Modal.Footer>
             </Modal>
+            <Modal show={modalEdit} onHide={modalEditClose} centered>
+              <Modal.Header closeButton>
+                <Modal.Title>Edit Post</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <form>
+                  <div className="edit-text">
+                    <textarea
+                      row="5"
+                      type="text"
+                      value={isEditInput}
+                      onChange={(e) => setIsEditInput(e.target.value)}
+                    />
+                  </div>
+                  <div className="edit-file">
+                    <div>
+                      <input
+                        accept="image/jpeg, image/png"
+                        id="icon-button-file"
+                        type="file"
+                        onChange={(e) => setIsEditFile(e.target.files[0])}
+                      />
+                    </div>
+                    <div>
+                      <Button className="button" onClick={modalEditClose}>
+                        Cancel
+                      </Button>
+                      <Button
+                        type="submit"
+                        onClick={handleEditSubmit}
+                        className="button"
+                        id={post._id}
+                      >
+                        Edit
+                      </Button>
+                    </div>
+                  </div>
+                </form>
+              </Modal.Body>
+            </Modal>
           </React.Fragment>
         }
         title={post.userName}
@@ -160,42 +196,11 @@ function Post({ post }) {
       />
 
       <CardContent>
-        {post.content ? (
-          isEdit ? (
-            <div>
-              <form onSubmit={handleEditSubmit}>
-                <div className="edit-form">
-                  <input
-                    type="text"
-                    value={isEditInput}
-                    onChange={(e) => setIsEditInput(e.target.value)}
-                  />
-                  <input
-                    type="file"
-                    accept="image/*, video/*"
-                    onChange={(e) => setIsEditFile(e.target.files[0])}
-                  />
-                  <div className="edit-button">
-                  <Button
-                    onClick={() => setIsEdit(false)}
-                    
-                    size="sm"
-                  >
-                    Cancel
-                  </Button>
-                  <Button size="sm" type="submit" >
-                    Save
-                  </Button>
-                  </div>
-                </div>
-              </form>
-            </div>
-          ) : (
-            <Typography variant="body2" color="textSecondary" component="p">
-              <div className="content">{post.content}</div>
-            </Typography>
-          )
-        ) : null}
+        {post.content && (
+          <Typography variant="body2" color="textSecondary" component="p">
+            <p className="content">{post.content}</p>
+          </Typography>
+        )}
         {post.fileType === "image/png" && (
           <div className="image-card">
             <img
@@ -334,7 +339,7 @@ function Cards({ posts }) {
 
   return (
     <Fragment>
-      {sortpost.map((post) => (post ? <Post post={post} /> : null))}
+      {sortpost.map((post, i) => (post ? <Post key={i} post={post} /> : null))}
     </Fragment>
   );
 }
