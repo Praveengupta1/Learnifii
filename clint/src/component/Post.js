@@ -16,12 +16,14 @@ function Posts({ id }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(file);
     if (file || content) {
       const formData = new FormData();
       formData.append("id", id);
       formData.append("userName", "Praveen");
       formData.append("content", content);
       formData.append("file", file);
+      console.log(file);
       dispatch(groupPost(formData));
       setcontent("");
       setFile("");
@@ -49,6 +51,7 @@ function Posts({ id }) {
                   className={classes.input}
                   id="icon-button-file"
                   type="file"
+                  onChange={(e) => setFile(e.target.files[0])}
                 />
                 <label htmlFor="icon-button-file">
                   <IconButton
