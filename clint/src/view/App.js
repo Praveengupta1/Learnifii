@@ -1,7 +1,7 @@
 import React from "react";
 import Search from "../component/Search";
 import Session from "../component/Session";
-
+import Msg from "../component/successModal";
 import { Provider } from "react-redux";
 import store from "../store";
 function App() {
@@ -9,9 +9,7 @@ function App() {
     <Provider store={store}>
       <Search />
       <Session />
-      {/* <Follower /> */}
-      {/*  <Posts />
-      <Cards /> */}
+      <Msg />
     </Provider>
   );
 }

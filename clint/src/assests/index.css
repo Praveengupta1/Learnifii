@@ -230,21 +230,66 @@ label {
   background-color: #f07114;
   color: white;
   border-color: #f07114;
+  -webkit-box-shadow: none;
+  box-shadow: none;
 }
 
 .btn-primary:not(:disabled):not(.disabled).active,
 .btn-primary:not(:disabled):not(.disabled):active,
-.show > .btn-primary.dropdown-toggle {
+.show>.btn-primary.dropdown-toggle {
   color: #fff;
   background-color: #f07114;
   border-color: #f07114;
 }
 
 .button:active {
-  box-shadow: 2px 12px 35px -9px rgba(46, 74, 117, 1);
+  -webkit-box-shadow: none;
+  box-shadow: none;
   background-color: #f07114;
   color: white;
   border-color: #f07114;
+}
+
+.Modal-header {
+  background-color: #f07114;
+  padding: 0.1rem;
+  border: 0;
+}
+
+.Modal-header button {
+  outline: none;
+  color: white;
+}
+
+.modal-title {
+  padding: 15px;
+  width: 100%;
+}
+
+.Modal-Header-icon {
+  width: 100%;
+  justify-content: center;
+}
+
+.Modal-Header-icon h1 {
+  text-align: center;
+}
+
+.Modal-Header-icon h1 CheckCircleOutlineIcon {
+  font-size: 2rem;
+}
+
+.Modal-body {
+  text-align: center;
+
+}
+
+.Modal-body h1 {
+  color: #f07114
+}
+
+.Modal-body h4 {
+  color: gray;
 }
 
 /* set media querry  properties at 992px */
@@ -270,8 +315,9 @@ label {
     width: 100%;
   }
 }
- /* Skeleton css */
- .Skeleton {
+
+/* Skeleton css */
+.Skeleton {
   margin: auto;
   padding: 10px;
   max-width: 900px;
@@ -283,19 +329,24 @@ label {
   padding: 10px;
   border: 1px solid lightgray;
 }
-.discreption-skeleton *{
-  margin : 5px ;
+
+.discreption-skeleton * {
+  margin: 5px;
 }
+
 .profile-skeleton {
   display: flex;
 }
-.image-skeleton{
-  margin : 10px;
+
+.image-skeleton {
+  margin: 10px;
 }
-.action-skeleton{
+
+.action-skeleton {
   display: flex
 }
-.action-skeleton *{
- margin: 10px ;
 
-} 
+.action-skeleton * {
+  margin: 10px;
+
+}

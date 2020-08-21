@@ -4,9 +4,16 @@ import {
   GROUP_POST,
   DELETE_POST,
   UPDATE_POST,
+  SET_MASSAGE,
 } from "./type";
 import axios from "axios";
 
+export const setMassage = () => {
+  return {
+    type: SET_MASSAGE,
+    payload: null,
+  };
+};
 //DELETE A POST
 export const deletePost = (data) => (dispatch) => {
   axios
@@ -14,6 +21,7 @@ export const deletePost = (data) => (dispatch) => {
     .then((res) =>
       dispatch({
         type: DELETE_POST,
+        payload: "DELETE_POST",
       })
     )
     .catch((err) => console.log(err));
@@ -31,6 +39,7 @@ export const updatePost = (data) => (dispatch) => {
         console.log(res);
         dispatch({
           type: UPDATE_POST,
+          payload: "UPDATE_POST",
         });
       })
       .catch((err) => console.log(err));
@@ -50,7 +59,7 @@ export const groupPost = (data) => (dispatch) => {
         console.log(res);
         dispatch({
           type: GROUP_POST,
-          payload: res.status,
+          payload: "MAKE_POST",
         });
       })
       .catch((err) => console.log(err));
