@@ -43,7 +43,7 @@ export default function Example() {
             <h1>Great!</h1>
             <h4>Your Data has succesfully updated </h4>
             <Button className="button" onClick={handleModalClose}>
-              Small modal
+              Close
             </Button>
           </div>
         </Modal.Body>
