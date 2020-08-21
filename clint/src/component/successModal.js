@@ -8,11 +8,22 @@ export default function Example() {
   const msg = useSelector((state) => state.group.msg);
   const [smShow, setSmShow] = useState(true);
   const dispatch = useDispatch();
+  const [modalMsg, setModalMsg] = useState("");
   console.log(msg);
   useEffect(() => {
-    msg === "UPDATE_POST" || msg === "MAKE_POST" || msg === "DELETE_POST"
-      ? setSmShow(true)
-      : setSmShow(false);
+    if (msg === "MAKE_POST") {
+      setSmShow(true);
+      setModalMsg("Your post has been successfully created.");
+    } else if (msg === "UPDATE_POST") {
+      setSmShow(true);
+      setModalMsg("Your post has been successfully updated.");
+    } else if (msg === "DELETE_POST") {
+      setSmShow(true);
+      setModalMsg("Your post has been successfully deleted.");
+    } else {
+      setSmShow(false);
+      setModalMsg("");
+    }
   }, [msg]);
   const handleModalClose = () => {
     dispatch(setMassage());
@@ -41,7 +52,7 @@ export default function Example() {
         <Modal.Body>
           <div className="Modal-body">
             <h1>Great!</h1>
-            <h4>Your Data has succesfully updated </h4>
+            <h4>{modalMsg}</h4>
             <Button className="button" onClick={handleModalClose}>
               Close
             </Button>
