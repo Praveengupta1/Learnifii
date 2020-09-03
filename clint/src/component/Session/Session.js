@@ -1,12 +1,12 @@
 import React, { useEffect, Fragment } from "react";
 import PropTypes from "prop-types";
 import { AppBar, Tabs, Tab, Box } from "@material-ui/core";
-import { useStyles } from "../assests/style";
-import Follower from "./Follower";
-import Post from "./Post";
-import Card from "./Card";
+import { useStyles } from "../../assests/style";
+import Follower from "../Follower/Follower";
+import Post from "../Post/Post";
+import Card from "../Card/Card";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchData } from "../Action/actionType";
+import { fetchData } from "../../Action/actionType";
 import Skeleton from "@material-ui/lab/Skeleton";
 
 function TabPanel(props) {
@@ -49,8 +49,8 @@ export default function ScrollableTabsButtonForce() {
   const groupInfo = useSelector((state) => state.group);
 
   useEffect(() => {
-    dispatch(fetchData());
-  }, [dispatch, groupInfo.loading]);
+    dispatch(fetchData(groupInfo.token));
+  }, [dispatch, groupInfo.loading, groupInfo.token]);
 
   return (
     <Fragment>
@@ -135,8 +135,17 @@ export default function ScrollableTabsButtonForce() {
           {groupInfo.groupdata.map((group, index) => (
             <TabPanel key={index} value={value} index={index}>
               <Follower users={group.followerGroupUser} />
-              <Post id={group._id} />
-              <Card posts={group.groupPost} id={group._id} />
+              <Post
+                id={group._id}
+                token={groupInfo.token}
+                user={groupInfo.user}
+              />
+              <Card
+                posts={group.groupPost}
+                id={group._id}
+                token={groupInfo.token}
+                user={groupInfo.user}
+              />
             </TabPanel>
           ))}
         </div>

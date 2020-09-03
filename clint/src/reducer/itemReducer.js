@@ -5,15 +5,31 @@ import {
   DELETE_POST,
   UPDATE_POST,
   SET_MASSAGE,
+  SET_USER,
+  LIKE_POST,
 } from "../Action/type";
 
 const initialState = {
   groupdata: [],
   loading: false,
   msg: null,
+  user: null,
+  token: null,
 };
 const itemReducer = (state = initialState, action) => {
   switch (action.type) {
+    case LIKE_POST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case SET_USER:
+      return {
+        ...state,
+        token: action.payload.token,
+        user: action.payload.user,
+        loading: true,
+      };
     case FETCH_DATA: {
       return {
         ...state,

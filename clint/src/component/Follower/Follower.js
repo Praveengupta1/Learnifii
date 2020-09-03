@@ -1,10 +1,11 @@
 import React, { Fragment } from "react";
 import { Button, Avatar, IconButton } from "@material-ui/core";
 
-import { useStyles, StyledBadge } from "../assests/style";
+import { useStyles, StyledBadge } from "../../assests/style";
 import ShareIcon from "@material-ui/icons/Share";
 
 const style = { height: "60px", width: "60px" };
+
 function Follower({ users }) {
   const classes = useStyles();
   return (

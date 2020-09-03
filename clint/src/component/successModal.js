@@ -9,7 +9,7 @@ export default function Example() {
   const [smShow, setSmShow] = useState(true);
   const dispatch = useDispatch();
   const [modalMsg, setModalMsg] = useState("");
-  console.log(msg);
+
   useEffect(() => {
     if (msg === "MAKE_POST") {
       setSmShow(true);

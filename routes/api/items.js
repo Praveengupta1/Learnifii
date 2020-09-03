@@ -6,9 +6,10 @@ const mongoose = require("mongoose");
 const multer = require("multer");
 const GridFsStorage = require("multer-gridfs-storage");
 const Grid = require("gridfs-stream");
+const jwt = require("jsonwebtoken");
 // Item Model
-
 const Item = require("../../model/Item");
+
 // image uploadation
 // mongo uri
 const mongoURI = require("../../config/key").MongoURI;
@@ -26,6 +27,7 @@ conn.once("open", () => {
   gfs = Grid(conn.db, mongoose.mongo);
   gfs.collection("uploads");
 });
+
 // Create storage engine
 const storage = new GridFsStorage({
   url: mongoURI,
@@ -46,6 +48,7 @@ const storage = new GridFsStorage({
   },
 });
 const upload = multer({ storage });
+
 //@GET  for image
 router.get("/image/:filename", (req, res) => {
   gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
@@ -69,12 +72,21 @@ router.get("/image/:filename", (req, res) => {
   });
 });
 
+// fucntion for verify token
+const verifytoken = require("../../config/token");
+
 // grab all group  and create a group
 router
-  .get("/group", (req, res) => {
-    Item.find()
-      .sort({ date: -1 })
-      .then((item) => res.json(item));
+  .get("/group", verifytoken, (req, res) => {
+    jwt.verify(req.token, "secretkey", (err) => {
+      if (err) {
+        res.statusCode(403);
+      } else {
+        Item.find()
+          .sort({ date: -1 })
+          .then((item) => res.json(item));
+      }
+    });
   })
   // delete group
   .delete("/group", (req, res) => {
@@ -130,118 +142,167 @@ router
   });
 
 // write a post
-router.put("/grouppost", upload.single("file"), (req, res) => {
+router.put("/grouppost", verifytoken, upload.single("file"), (req, res) => {
   console.log(req.file);
-  if (req.file) {
-    Item.updateOne(
-      { _id: req.body.id },
-      {
-        $push: {
-          groupPost: {
-            $each: [
-              {
-                userName: req.body.userName,
-                content: req.body.content,
-                file: req.file.filename,
-                fileType: req.file.contentType,
+  jwt.verify(req.token, "secretkey", (err, authdata) => {
+    if (err) {
+      res.statusCode({ status: 403, message: "unauthroization" });
+    } else {
+      if (req.file) {
+        console.log(authdata);
+        Item.updateOne(
+          { _id: req.body.id },
+          {
+            $push: {
+              groupPost: {
+                $each: [
+                  {
+                    userName: authdata.userdata.name,
+                    userId: authdata.userdata.email,
+
+                    userPhoto: authdata.userdata.profile_image_url,
+                    content: req.body.content,
+                    file: req.file.filename,
+                    fileType: req.file.contentType,
+                  },
+                ],
               },
-            ],
+            },
           },
-        },
-      },
-      { upsert: true }
-    )
-      .then((response) => res.json(response))
-      .catch((error) => res.json(error));
-  } else {
-    Item.updateOne(
-      { _id: req.body.id },
-      {
-        $push: {
-          groupPost: {
-            $each: [
-              {
-                userName: req.body.userName,
-                content: req.body.content,
+          { upsert: true }
+        )
+          .then((response) => res.json(response))
+          .catch((error) => res.json(error));
+      } else {
+        Item.updateOne(
+          { _id: req.body.id },
+          {
+            $push: {
+              groupPost: {
+                $each: [
+                  {
+                    userName: authdata.userdata.name,
+                    userId: authdata.userdata.email,
+
+                    userPhoto: authdata.userdata.profile_image_url,
+                    content: req.body.content,
+                  },
+                ],
               },
-            ],
+            },
           },
-        },
-      },
-      { upsert: true }
-    )
-      .then((response) => res.json(response))
-      .catch((error) => res.json(error));
-  }
+          { upsert: true }
+        )
+          .then((response) => res.json(response))
+          .catch((error) => res.json(error));
+      }
+    }
+  });
 });
 
 // update post
-router.put("/postupdate", upload.single("file"), (req, res) => {
-  console.log(req.file);
-  if (req.file) {
-    Item.updateOne(
-      { "groupPost._id": req.body.id },
-      {
-        "groupPost.$.content": req.body.content,
-        "groupPost.$.file": req.file.filename,
-        "groupPost.$.fileType": req.file.contentType,
+router.put("/postupdate", verifytoken, upload.single("file"), (req, res) => {
+  jwt.verify(req.token, "secretkey", (err, authdata) => {
+    if (err) {
+      res.statusCode(403);
+    } else {
+      if (req.file) {
+        Item.updateOne(
+          { "groupPost._id": req.body.id },
+          {
+            "groupPost.$.userName": authdata.userdata.name,
+            "groupPost.$.userId": authdata.userdata.email,
+            "groupPost.$.userPhoto": authdata.userdata.profile_image_url,
+            "groupPost.$.content": req.body.content,
+            "groupPost.$.file": req.file.filename,
+            "groupPost.$.fileType": req.file.contentType,
+          }
+        )
+          .then((response) => res.json(response))
+          .catch((error) => res.json(error));
+      } else {
+        Item.updateOne(
+          { "groupPost._id": req.body.id },
+          {
+            "groupPost.$.userName": authdata.userdata.name,
+            "groupPost.$.userId": authdata.userdata.email,
+            "groupPost.$.userPhoto": authdata.userdata.profile_image_url,
+            "groupPost.$.content": req.body.content,
+          }
+        )
+          .then((response) => res.json(response))
+          .catch((error) => res.json(error));
       }
-    )
-      .then((response) => res.json(response))
-      .catch((error) => res.json(error));
-  } else {
-    Item.updateOne(
-      { "groupPost._id": req.body.id },
-      {
-        "groupPost.$.content": req.body.content,
-      }
-    )
-      .then((response) => res.json(response))
-      .catch((error) => res.json(error));
-  }
+    }
+  });
 });
 // delete a post
-router.put("/grouppostde", (req, res) => {
-  Item.updateOne(
-    { groupPost: { $elemMatch: { _id: req.body.id } } },
-    { $pull: { groupPost: { _id: req.body.id } } }
-  )
-    .then((response) => {
-      res.json(response);
-    })
-    .catch((error) => res.json(error));
+router.put("/grouppostde", verifytoken, (req, res) => {
+  jwt.verify(req.token, "secretkey", (err) => {
+    if (err) {
+      res;
+    } else {
+      Item.updateOne(
+        { groupPost: { $elemMatch: { _id: req.body.id } } },
+        { $pull: { groupPost: { _id: req.body.id } } }
+      )
+        .then((response) => {
+          res.json(response);
+        })
+        .catch((error) => res.json(error));
+    }
+  });
 });
 
 // like post routes
 
-router.put("/like", (req, res) => {
-  Item.findOne({ "groupPost.like.userName": req.body.userName })
-    .then((response) =>
-      response
-        ? Item.updateOne(
-            { "groupPost._id": req.body.id },
-            {
-              $pull: {
-                "groupPost.$.like": { userName: req.body.userName },
-              },
-            }
-          )
-            .then((response) => res.json(response))
-            .catch((error) => res.json({ success: false }))
-        : Item.updateOne(
-            { "groupPost._id": req.body.id },
-            {
-              $push: {
-                "groupPost.$.like": {
-                  $each: [{ userName: req.body.userName }],
-                },
-              },
-            }
-          )
-            .then((response) => res.json(response))
-            .catch((error) => res.json(error))
-    )
-    .catch((error) => res.json(error));
+router.put("/like", verifytoken, (req, res) => {
+  jwt.verify(req.token, "secretkey", (err, authdata) => {
+    if (err) {
+      res.statusCode(403);
+    } else {
+      Item.findOne({
+        "groupPost.like.userId": authdata.userdata.email,
+      })
+        .then((response) => {
+          console.log(response);
+          response
+            ? Item.updateOne(
+                { "groupPost._id": req.body.id },
+                {
+                  $pull: {
+                    "groupPost.$.like": {
+                      userId: authdata.userdata.email,
+                      userName: authdata.userdata.name,
+                      userPhoto: authdata.userdata.profile_image_url,
+                    },
+                  },
+                }
+              )
+                .then((response) => res.json(response))
+                .catch((error) => res.json({ success: false }))
+            : Item.updateOne(
+                { "groupPost._id": req.body.id },
+                {
+                  $push: {
+                    "groupPost.$.like": {
+                      $each: [
+                        {
+                          userId: authdata.userdata.email,
+                          userName: authdata.userdata.name,
+                          userPhoto: authdata.userdata.profile_image_url,
+                        },
+                      ],
+                    },
+                  },
+                }
+              )
+                .then((response) => console.log(response))
+                .catch((error) => res.json(error));
+        })
+        .catch((error) => res.json(error));
+    }
+  });
 });
 
 // incremnet number of share

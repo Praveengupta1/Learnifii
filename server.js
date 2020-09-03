@@ -5,6 +5,8 @@ const path = require("path");
 const app = express();
 
 const items = require("./routes/api/items");
+const user = require("./routes/user/user");
+
 //bodyparser Middleware
 
 app.use(bodyParser.json());
@@ -19,8 +21,12 @@ mongoose.connect(
     err ? console.log(err) : console.log("Mongoose database connected ")
 );
 
-// use routes
+// item routes
 app.use("/api", items);
+
+// user routes
+app.use("/user", user);
+
 // Serve static assets if in Prduction
 if (process.env.NODE_ENV === "production") {
   // Set Static folder

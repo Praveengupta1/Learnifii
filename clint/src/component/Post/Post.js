@@ -1,28 +1,32 @@
 import React, { useState } from "react";
 import Card from "@material-ui/core/Card";
 import Paper from "@material-ui/core/Paper";
-import { useStyles } from "../assests/style";
+import { useStyles } from "../../assests/style";
 import IconButton from "@material-ui/core/IconButton";
 import CameraAltIcon from "@material-ui/icons/CameraAlt";
 import { useDispatch } from "react-redux";
-import { updatePost } from "../Action/actionType";
+import { groupPost } from "../../Action/actionType";
 import Button from "@material-ui/core/Button";
 
-function Posts({ id }) {
+function Posts({ id, token }) {
   const [content, setcontent] = useState("");
   const [file, setFile] = useState("");
   const dispatch = useDispatch();
   const classes = useStyles();
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(file);
+    if (file || content) {
+      const formData = new FormData();
+      formData.append("id", id);
 
-    const formData = new FormData();
-    formData.append("id", id);
-    formData.append("content", content);
-    formData.append("file", file);
-    dispatch(updatePost(formData));
-    setcontent("");
-    setFile("");
+      formData.append("content", content);
+      formData.append("file", file);
+      dispatch(groupPost({ data: formData, token: token }));
+      setcontent("");
+      setFile("");
+    }
   };
 
   return (
@@ -42,7 +46,7 @@ function Posts({ id }) {
 
               <div className="input-icon">
                 <input
-                  accept="image/*, video/*"
+                  accept="image/jpeg, image/png"
                   className={classes.input}
                   id="icon-button-file"
                   type="file"
@@ -54,7 +58,7 @@ function Posts({ id }) {
                     aria-label="upload picture"
                     component="span"
                   >
-                    <CameraAltIcon className={classes.iconstyle} />
+                    <CameraAltIcon />
                   </IconButton>
                 </label>
               </div>

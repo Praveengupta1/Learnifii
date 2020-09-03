@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { stringify } = require("uuid");
 
 const Schema = mongoose.Schema;
 
@@ -6,6 +7,7 @@ const ItemSchema = new Schema({
   groupName: {
     type: String,
     required: true,
+    trim: true,
   },
   date: {
     type: Date,
@@ -16,6 +18,7 @@ const ItemSchema = new Schema({
       userName: {
         type: String,
         required: true,
+        trim: true,
       },
       date: {
         type: Date,
@@ -32,9 +35,15 @@ const ItemSchema = new Schema({
         type: Date,
         default: new Date().toString(),
       },
+      userId: {
+        type: String,
+        required: true,
+        trim: true,
+      },
       userName: {
         type: String,
         required: true,
+        trim: true,
       },
       userPhoto: {
         type: String,
@@ -47,6 +56,7 @@ const ItemSchema = new Schema({
       },
       content: {
         type: String,
+        trim: true,
       },
       location: {
         type: String,
@@ -56,6 +66,7 @@ const ItemSchema = new Schema({
       },
       like: [
         {
+          userId: String,
           userName: String,
           userPhoto: String,
         },
@@ -66,6 +77,7 @@ const ItemSchema = new Schema({
           userName: {
             type: String,
             required: true,
+            trim: true,
           },
           userPhoto: String,
           comment: {
@@ -74,7 +86,7 @@ const ItemSchema = new Schema({
           like: [
             {
               userPhoto: String,
-              userName: String,
+              userName: { type: String, trim: true },
             },
           ],
           time: {
@@ -82,7 +94,10 @@ const ItemSchema = new Schema({
             default: new Date().toString(),
           },
           reply: [
-            { content: String, userName: { type: String, required: true } },
+            {
+              content: String,
+              userName: { type: String, required: true, trim: true },
+            },
           ],
         },
       ],

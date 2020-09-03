@@ -5,9 +5,39 @@ import {
   DELETE_POST,
   UPDATE_POST,
   SET_MASSAGE,
+  SET_USER,
+  LIKE_POST,
 } from "./type";
 import axios from "axios";
 
+// LIKE A POST
+export const likePost = ({ data, token }) => (dispatch) => {
+  console.log(data);
+  axios
+    .put("/api/like", data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((res) => {
+      dispatch({
+        type: LIKE_POST,
+      });
+    });
+};
+//set user
+export const setUser = (user) => (dispatch) => {
+  axios
+    .post("/user/", user)
+    .then((res) =>
+      dispatch({
+        type: SET_USER,
+        payload: res.data,
+      })
+    )
+    .catch((err) => console.log(err));
+};
+//set message
 export const setMassage = () => {
   return {
     type: SET_MASSAGE,
@@ -15,9 +45,13 @@ export const setMassage = () => {
   };
 };
 //DELETE A POST
-export const deletePost = (data) => (dispatch) => {
+export const deletePost = ({ data, token }) => (dispatch) => {
   axios
-    .put("/api/grouppostde", data)
+    .put("/api/grouppostde", data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
     .then((res) =>
       dispatch({
         type: DELETE_POST,
@@ -27,12 +61,13 @@ export const deletePost = (data) => (dispatch) => {
     .catch((err) => console.log(err));
 };
 //POST A POST
-export const updatePost = (data) => (dispatch) => {
+export const updatePost = ({ data, token }) => (dispatch) => {
   const postdata = async () => {
     await axios
       .put("/api/postupdate", data, {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
         },
       })
       .then((res) => {
@@ -47,12 +82,13 @@ export const updatePost = (data) => (dispatch) => {
   postdata();
 };
 //POST A POST
-export const groupPost = (data) => (dispatch) => {
+export const groupPost = ({ data, token }) => (dispatch) => {
   const postdata = async () => {
     await axios
       .put("/api/grouppost", data, {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
         },
       })
       .then((res) => {
@@ -68,16 +104,16 @@ export const groupPost = (data) => (dispatch) => {
 };
 
 // GET DATA
-export const fetchData = () => (dispatch) => {
+export const fetchData = (token) => (dispatch) => {
   dispatch(loadingData);
   axios
-    .get("/api/group")
-    .then((res) =>
+    .get("/api/group", { headers: { Authorization: `Bearer ${token}` } })
+    .then((res) => {
       dispatch({
         type: FETCH_DATA,
         payload: res.data,
-      })
-    )
+      });
+    })
     .catch((err) => console.log(err));
 };
 

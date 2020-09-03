@@ -1,8 +1,7 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import {
   Card,
   CardHeader,
-  CardMedia,
   CardContent,
   CardActions,
   Avatar,
@@ -15,21 +14,29 @@ import {
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShareIcon from "@material-ui/icons/Share";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import { useStyles } from "../assests/style";
+import { useStyles } from "../../assests/style";
 import CommentIcon from "@material-ui/icons/Comment";
 import AvatarGroup from "@material-ui/lab/AvatarGroup";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
-import { deletePost, updatePost } from "../Action/actionType";
+import { deletePost, updatePost, likePost } from "../../Action/actionType";
 import { useDispatch } from "react-redux";
 import { Modal, Button } from "react-bootstrap";
-import CameraAltIcon from "@material-ui/icons/CameraAlt";
 
-function Post({ post }) {
+import "./Card.css";
+
+function Post({ post, user, token }) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const [modalDel, setmodalDel] = useState(false);
   const [modalEdit, setmodalEdit] = useState(false);
-  const [isEditInput, setIsEditInput] = useState(post.content);
+  const [isEditInput, setIsEditInput] = useState("");
+  const [isLikeId, setisLikeId] = useState("");
+
+  useEffect(() => {
+    console.log(post);
+    setIsEditInput(post.content);
+    setisLikeId(post._id);
+  }, [post.content, post.id]);
   const [isEditFile, setIsEditFile] = useState("");
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -42,7 +49,7 @@ function Post({ post }) {
     const data = {
       id: e.target.id,
     };
-    dispatch(deletePost(data));
+    dispatch(deletePost({ data, data, token: token }));
     modalDelClose();
   };
 
@@ -82,6 +89,25 @@ function Post({ post }) {
     let dateFormated = mName + " " + dName;
     return dateFormated;
   };
+
+  const [isAction, setisAction] = useState("gray");
+
+  const actionStyle = {
+    color: isAction,
+  };
+
+  const handleAction = () => {
+    if (isAction === "gray") {
+      setisAction("red");
+    } else {
+      setisAction("gray");
+    }
+    const formdata = new FormData();
+    console.log(isLikeId);
+    const data = { id: isLikeId };
+    dispatch(likePost({ data: data, token: token }));
+  };
+
   const handleEditSubmit = (e) => {
     e.preventDefault();
     if (isEditInput || isEditFile) {
@@ -91,7 +117,7 @@ function Post({ post }) {
       formData.append("content", isEditInput);
       formData.append("file", isEditFile);
 
-      dispatch(updatePost(formData));
+      dispatch(updatePost({ data: formData, token: token }));
 
       setmodalEdit(false);
       setIsEditFile("");
@@ -100,11 +126,7 @@ function Post({ post }) {
   return (
     <Card key={post._id} className={classes.cards}>
       <CardHeader
-        avatar={
-          <Avatar aria-label="recipe" className={classes.avatarpost}>
-            {post.userName.split("")[0]}
-          </Avatar>
-        }
+        avatar={<Avatar src={post.userPhoto} className={classes.avatarpost} />}
         action={
           <React.Fragment key={post._id}>
             <IconButton
@@ -191,7 +213,9 @@ function Post({ post }) {
             </Modal>
           </React.Fragment>
         }
-        title={post.userName}
+        title={post.userName.replace(/\w\S*/g, function (txt) {
+          return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+        })}
         subheader={dateFormat(post.time)}
       />
 
@@ -219,49 +243,27 @@ function Post({ post }) {
             />
           </div>
         )}
-        {/* {post.fileType === "application/octet-stream" && (
-          <div className="image-card">
-            <img
-              className="post-image"
-              src={`/api/image/${post.file}`}
-              alt=" "
-            />
-          </div>
-        )} */}
       </CardContent>
-      {/* {post.fileType === "image/png" && (
-              <CardMedia
-                key={post._id}
-                className={classes.media}
-                image={`http://localhost:4000/api/image/${post.file}`}
-                title="Paella dish"
-              />
-            )}
-            {post.fileType === "image/jpeg" && (
-              <CardMedia
-                key={post._id}
-                className={classes.media}
-                image={`http://localhost:4000/api/image/${post.file}`}
-                title="Paella dish"
-              />
-            )} */}
+
       <CardActions>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
-        </IconButton>
-        {post.like ? <label>{post.like.length + " Likes"}</label> : null}
-        <IconButton aria-label="comment">
-          <CommentIcon />
-        </IconButton>
-        {post.commentSection ? (
+        <div>
+          <IconButton onClick={handleAction}>
+            <FavoriteIcon style={actionStyle} />
+          </IconButton>
+          {/* {post.like ? <label>{post.like.length + " Likes"}</label> : null} */}
+          <IconButton aria-label="comment">
+            <CommentIcon />
+          </IconButton>
+          {/* {post.commentSection ? (
           <label>{post.commentSection.length + " comment"}</label>
-        ) : null}
-        <IconButton aria-label="share">
-          <ShareIcon />
-        </IconButton>
-        {post.noumberOfShare ? (
+        ) : null} */}
+          <IconButton aria-label="share">
+            <ShareIcon />
+          </IconButton>
+          {/* {post.noumberOfShare ? (
           <label>{post.noumberOfShare + " Shares"}</label>
-        ) : null}
+        ) : null} */}
+        </div>
       </CardActions>
       <div className="like-avatar">
         <AvatarGroup max={4}>
@@ -281,10 +283,9 @@ function Post({ post }) {
             <Avatar
               aria-label="recipe"
               className={classes.avatarpost}
-              style={{ height: "60px", width: "60px" }}
-            >
-              {post.userName.split("")[0]}
-            </Avatar>
+              style={{ height: "40px", width: "40px" }}
+              src={user.profile_image_url}
+            />
             <input type="text" />
           </div>
         </form>
@@ -315,31 +316,14 @@ function Post({ post }) {
   );
 }
 
-function Cards({ posts }) {
-  const classes = useStyles();
-  const [anchorEl, setAnchorEl] = useState(null);
-
+function Cards({ posts, user, token }) {
   const sortpost = posts.sort((a, b) => new Date(b.time) - new Date(a.time));
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const dispatch = useDispatch();
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-  const handleDelete = (e) => {
-    handleClose();
-    const data = {
-      id: e.target.id,
-    };
-
-    dispatch(deletePost(data));
-  };
 
   return (
     <Fragment>
-      {sortpost.map((post, i) => (post ? <Post key={i} post={post} /> : null))}
+      {sortpost.map((post, i) =>
+        post ? <Post key={i} post={post} token={token} user={user} /> : null
+      )}
     </Fragment>
   );
 }
