@@ -35,9 +35,10 @@ function Post({ post, user, token }) {
         id: isPostId,
         comment: isComment,
       };
+      
       dispatch(makeComment({ data: data, token: token }));
+      setisComment("");
     }
-    setisComment("");
   };
   const month = [
     "Jan",
@@ -131,7 +132,11 @@ function Post({ post, user, token }) {
               style={{ height: "40px", width: "40px" }}
               src={user.profile_image_url}
             />
-            <input type="text" onChange={(e) => setisComment(e.target.value)} />
+            <input
+              type="text"
+              value={isComment}
+              onChange={(e) => setisComment(e.target.value)}
+            />
           </div>
           <button type="submit">Post</button>
         </form>
