@@ -8,8 +8,20 @@ import {
   SET_USER,
   LIKE_POST,
   FOLLOW,
+  MAKE_COMMENT,
 } from "./type";
 import axios from "axios";
+
+// make a comment
+export const makeComment = ({ data, token }) => (dispatch) => {
+  axios
+    .post("/comment", data, { headers: { Authorization: `Bearer ${token}` } })
+    .then((response) =>
+      dispatch({
+        type: MAKE_COMMENT,
+      })
+    );
+};
 
 // LIKE A POST
 export const likePost = ({ data, token }) => (dispatch) => {

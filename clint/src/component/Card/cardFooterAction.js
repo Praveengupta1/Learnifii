@@ -23,7 +23,7 @@ const CardFooterAction = ({ likes, id, token, username }) => {
 
     const isLidePost = likes.filter((like) => like.userId === username);
     isLidePost[0] ? setisLikeAction("red") : setisLikeAction("gray");
-  }, [id, username]);
+  }, [id, username, likes]);
 
   const handleAction = () => {
     if (isLikeAction === "gray") {

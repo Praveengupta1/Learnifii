@@ -140,6 +140,7 @@ label {
 .comment-people {
   margin-top: 20px;
   display: flex;
+  align-items: center;
 }
 
 .comment-people .name {
@@ -172,6 +173,7 @@ label {
 .comment-people-name h4,
 .comment-people-name p {
   margin: 0;
+  text-transform: capitalize;
 }
 
 /* post  style  */

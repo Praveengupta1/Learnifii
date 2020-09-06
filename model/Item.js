@@ -78,6 +78,11 @@ const ItemSchema = new Schema({
 
       comments: [
         {
+          userId: {
+            type: String,
+            required: true,
+            trim: true,
+          },
           userName: {
             type: String,
             required: true,

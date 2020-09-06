@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import {
   Card,
   CardHeader,
@@ -11,7 +11,7 @@ import {
 import { useStyles } from "../../assests/style";
 import AvatarGroup from "@material-ui/lab/AvatarGroup";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
-import { likePost } from "../../Action/actionType";
+import { makeComment } from "../../Action/actionType";
 import { useDispatch } from "react-redux";
 import CardFooterAction from "./cardFooterAction";
 import MakeAction from "./cardAction";
@@ -19,9 +19,26 @@ import "./Card.css";
 
 function Post({ post, user, token }) {
   const classes = useStyles();
-
+  const [isPostId, setisPostId] = useState("");
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    setisPostId(post._id);
+  }, [post]);
+
+  const [isComment, setisComment] = useState("");
+  const handleComment = (e) => {
+    e.preventDefault();
+
+    if (isComment) {
+      const data = {
+        id: isPostId,
+        comment: isComment,
+      };
+      dispatch(makeComment({ data: data, token: token }));
+    }
+    setisComment("");
+  };
   const month = [
     "Jan",
     "Feb",
@@ -106,7 +123,7 @@ function Post({ post, user, token }) {
               </div> */}
       </div>
       <CardContent>
-        <form>
+        <form className="comment" onSubmit={handleComment}>
           <div className={classes.comment}>
             <Avatar
               aria-label="recipe"
@@ -114,19 +131,21 @@ function Post({ post, user, token }) {
               style={{ height: "40px", width: "40px" }}
               src={user.profile_image_url}
             />
-            <input type="text" />
+            <input type="text" onChange={(e) => setisComment(e.target.value)} />
           </div>
+          <button type="submit">Post</button>
         </form>
         <div>
           {post.comments.map((comment) => (
             <div key={comment._id} className="comment-people">
               <div className="name">
                 <div style={{ display: "flex" }}>
-                  <Avatar style={{ height: "60px", width: "60px" }}>
-                    {comment.userName.split("")[0]}
-                  </Avatar>
+                  <Avatar
+                    style={{ height: "30px", width: "30px" }}
+                    src={comment.userPhoto}
+                  />
                   <div className="comment-people-name">
-                    <h4>{comment.userName}</h4>
+                    <h6>{comment.userName}</h6>
                     <p>{comment.comment}</p>
                   </div>
                 </div>

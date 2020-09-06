@@ -13,7 +13,7 @@ function Follower({ users, userdata, token, id }) {
   const [GroupId, setGroupId] = useState(id);
   useEffect(() => {
     const isFollow = users.filter((user) => user.userId === userdata.email);
-    console.log(isFollow);
+
     isFollow[0] ? setState("Unfollow") : setState("follow");
     setGroupId(id);
   }, [userdata, users, id]);

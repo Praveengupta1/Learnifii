@@ -8,6 +8,7 @@ import {
   SET_USER,
   LIKE_POST,
   FOLLOW,
+  MAKE_COMMENT,
 } from "../Action/type";
 
 const initialState = {
@@ -69,6 +70,11 @@ const itemReducer = (state = initialState, action) => {
       };
     }
     case FOLLOW:
+      return {
+        ...state,
+        loading: true,
+      };
+    case MAKE_COMMENT:
       return {
         ...state,
         loading: true,
