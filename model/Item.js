@@ -1,5 +1,4 @@
-const mongoose = require("mongoose");
-const { stringify } = require("uuid");
+const mongoose = require("../db/mongoose");
 
 const Schema = mongoose.Schema;
 
@@ -13,8 +12,13 @@ const ItemSchema = new Schema({
     type: Date,
     default: new Date().toString(),
   },
-  followerGroupUser: [
+  followers: [
     {
+      userId: {
+        type: String,
+        required: true,
+        trim: true,
+      },
       userName: {
         type: String,
         required: true,
@@ -64,15 +68,15 @@ const ItemSchema = new Schema({
       noumberOfShare: {
         type: Number,
       },
-      like: [
+      likes: [
         {
-          userId: String,
-          userName: String,
+          userId: { type: String, trim: true, required: true },
+          userName: { type: String, trim: true, required: true },
           userPhoto: String,
         },
       ],
 
-      commentSection: [
+      comments: [
         {
           userName: {
             type: String,
@@ -81,9 +85,10 @@ const ItemSchema = new Schema({
           },
           userPhoto: String,
           comment: {
+            trim: true,
             type: String,
           },
-          like: [
+          likes: [
             {
               userPhoto: String,
               userName: { type: String, trim: true },
@@ -93,7 +98,7 @@ const ItemSchema = new Schema({
             type: String,
             default: new Date().toString(),
           },
-          reply: [
+          replies: [
             {
               content: String,
               userName: { type: String, required: true, trim: true },
@@ -105,4 +110,4 @@ const ItemSchema = new Schema({
   ],
 });
 
-module.exports = Item = mongoose.model("item", ItemSchema);
+module.exports = Item = mongoose.model("Item", ItemSchema);

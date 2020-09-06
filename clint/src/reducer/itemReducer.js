@@ -7,6 +7,7 @@ import {
   SET_MASSAGE,
   SET_USER,
   LIKE_POST,
+  FOLLOW,
 } from "../Action/type";
 
 const initialState = {
@@ -67,6 +68,11 @@ const itemReducer = (state = initialState, action) => {
         msg: action.payload,
       };
     }
+    case FOLLOW:
+      return {
+        ...state,
+        loading: true,
+      };
     default:
       return state;
   }

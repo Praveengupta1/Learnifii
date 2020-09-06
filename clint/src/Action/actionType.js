@@ -7,14 +7,14 @@ import {
   SET_MASSAGE,
   SET_USER,
   LIKE_POST,
+  FOLLOW,
 } from "./type";
 import axios from "axios";
 
 // LIKE A POST
 export const likePost = ({ data, token }) => (dispatch) => {
-  console.log(data);
   axios
-    .put("/api/like", data, {
+    .post("/like", data, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -47,7 +47,7 @@ export const setMassage = () => {
 //DELETE A POST
 export const deletePost = ({ data, token }) => (dispatch) => {
   axios
-    .put("/api/grouppostde", data, {
+    .post("/post/delete", data, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -60,11 +60,11 @@ export const deletePost = ({ data, token }) => (dispatch) => {
     )
     .catch((err) => console.log(err));
 };
-//POST A POST
+//Update A POST
 export const updatePost = ({ data, token }) => (dispatch) => {
   const postdata = async () => {
     await axios
-      .put("/api/postupdate", data, {
+      .post("/post/update", data, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
@@ -85,14 +85,13 @@ export const updatePost = ({ data, token }) => (dispatch) => {
 export const groupPost = ({ data, token }) => (dispatch) => {
   const postdata = async () => {
     await axios
-      .put("/api/grouppost", data, {
+      .post("/post/create", data, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
         },
       })
       .then((res) => {
-        console.log(res);
         dispatch({
           type: GROUP_POST,
           payload: "MAKE_POST",
@@ -102,12 +101,21 @@ export const groupPost = ({ data, token }) => (dispatch) => {
   };
   postdata();
 };
-
+// follow request or unfollow request
+export const followRequest = ({ data, token }) => (dispatch) => {
+  axios
+    .post("/follow", data, { headers: { Authorization: `Bearer ${token}` } })
+    .then((res) =>
+      dispatch({
+        type: FOLLOW,
+      })
+    );
+};
 // GET DATA
 export const fetchData = (token) => (dispatch) => {
   dispatch(loadingData);
   axios
-    .get("/api/group", { headers: { Authorization: `Bearer ${token}` } })
+    .get("/group", { headers: { Authorization: `Bearer ${token}` } })
     .then((res) => {
       dispatch({
         type: FETCH_DATA,

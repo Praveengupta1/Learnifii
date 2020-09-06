@@ -31,6 +31,7 @@ conn.once("open", () => {
 // Create storage engine
 const storage = new GridFsStorage({
   url: mongoURI,
+
   file: (req, file) => {
     return new Promise((resolve, reject) => {
       crypto.randomBytes(16, (err, buf) => {
@@ -76,58 +77,72 @@ router.get("/image/:filename", (req, res) => {
 const verifytoken = require("../../config/token");
 
 // grab all group  and create a group
-router
-  .get("/group", verifytoken, (req, res) => {
-    jwt.verify(req.token, "secretkey", (err) => {
-      if (err) {
-        res.statusCode(403);
-      } else {
-        Item.find()
-          .sort({ date: -1 })
-          .then((item) => res.json(item));
-      }
-    });
-  })
-  // delete group
-  .delete("/group", (req, res) => {
-    Item.deleteOne({ _id: req.body.id })
-      .then((response) => res.json(response))
-      .catch((error) => res.json((error) => res.json(error)));
-  })
-  // create group route
-  .post("/group", (req, res) => {
-    const item = new Item({
-      groupName: req.body.groupName,
-    });
-    Item.findOne({ groupName: req.body.groupName })
-      .then((response) => {
-        response
-          ? res.json({ massage: "already exists", response })
-          : item
-              .save()
-              .then((response) => res.json(response))
-              .catch((err) => res.json(err));
-      })
-      .catch((err) => res.json(err));
-  });
 
 // follow group by user
 // follow routes
 router
-  .put("/followgroup", (req, res) => {
-    Item.updateOne(
-      { _id: req.body.id },
-      {
-        $push: {
-          followerGroupUser: {
-            $each: [{ userName: req.body.userName }],
-          },
-        },
-      },
-      { upsert: true }
-    )
-      .then((response) => res.json(response))
-      .catch((error) => res.json(error));
+  .post("/followgroup", (req, res) => {
+    res.json(req.body);
+
+    // Item.findOne({
+    //   "followerGroupUser.userId": req.body.userId,
+    // })
+    //   .then((response) => {
+    //     console.log(response);
+    //     res.json(response);
+    // response
+    //   ? Item.updateOne(
+    //       { "_id": req.body.id },
+    //       {
+    //         $pull: {
+    //           "followerGroupUser.$.userId": {
+    //             userId: authdata.userdata.email,
+    //           },
+    //           "followerGroupUser.$.userName": {
+    //             userId: authdata.userdata.name,
+    //           },
+    //           "followerGroupUser.$.userPhoto": {
+    //             userId: authdata.userdata.,
+    //           },
+    //         },
+    //       }
+    //     )
+    //       .then((response) => res.json(response))
+    //       .catch((error) => res.json({ success: false }))
+    //   : Item.updateOne(
+    //       { "groupPost._id": req.body.id },
+    //       {
+    //         $push: {
+    //           "groupPost.$.like": {
+    //             $each: [
+    //               {
+    //                 userId: authdata.userdata.email,
+    //                 userName: authdata.userdata.name,
+    //                 userPhoto: authdata.userdata.profile_image_url,
+    //               },
+    //             ],
+    //           },
+    //         },
+    //       }
+    //     )
+    //       .then((response) => console.log(response))
+    //       .catch((error) => res.json(error));
+    // })
+    // .catch((error) => res.json(error));
+    // Item.update();
+    // Item.updateOne(
+    //   { _id: req.body.id },
+    //   {
+    //     $push: {
+    //       followerGroupUser: {
+    //         $each: [{ userName: req.body.userName }],
+    //       },
+    //     },
+    //   },
+    //   { upsert: true }
+    // )
+    //   .then((response) => res.json(response))
+    //   .catch((error) => res.json(error));
   })
 
   // unfollow routes

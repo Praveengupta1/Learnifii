@@ -1,12 +1,31 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { Button, Avatar, IconButton } from "@material-ui/core";
 
 import { useStyles, StyledBadge } from "../../assests/style";
 import ShareIcon from "@material-ui/icons/Share";
+import { useDispatch } from "react-redux";
+import { followRequest } from "../../Action/actionType";
 
 const style = { height: "60px", width: "60px" };
 
-function Follower({ users }) {
+function Follower({ users, userdata, token, id }) {
+  const [State, setState] = useState("");
+  const [GroupId, setGroupId] = useState(id);
+  useEffect(() => {
+    const isFollow = users.filter((user) => user.userId === userdata.email);
+    console.log(isFollow);
+    isFollow[0] ? setState("Unfollow") : setState("follow");
+    setGroupId(id);
+  }, [userdata, users, id]);
+
+  const dispatch = useDispatch();
+
+  const handleFollow = () => {
+    const data = {
+      id: GroupId,
+    };
+    dispatch(followRequest({ data: data, token: token }));
+  };
   const classes = useStyles();
   return (
     <div className="follower-box">
@@ -23,17 +42,19 @@ function Follower({ users }) {
                 }}
                 variant="dot"
               >
-                <Avatar alt="Remy Sharp" style={style}>
-                  {user.userName.split("")[0]}
-                </Avatar>
+                <Avatar src={userdata.profile_image_url} style={style} />
               </StyledBadge>
             </Fragment>
           ))}
         </div>
       </div>
       <div className="follow-button">
-        <Button variant="contained" className={classes.root}>
-          FOLLOW
+        <Button
+          variant="contained"
+          className={classes.root}
+          onClick={handleFollow}
+        >
+          {State}
         </Button>
         <IconButton aria-label="delete" className={classes.margin}>
           <ShareIcon fontSize="large" />

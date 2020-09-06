@@ -4,25 +4,16 @@ const bodyParser = require("body-parser");
 const path = require("path");
 const app = express();
 
-const items = require("./routes/api/items");
 const user = require("./routes/user/user");
 
 //bodyparser Middleware
 
 app.use(bodyParser.json());
 
-//db connections
-
-const db = require("./config/key").MongoURI;
-mongoose.connect(
-  db,
-  { useNewUrlParser: true, useUnifiedTopology: true },
-  (err) =>
-    err ? console.log(err) : console.log("Mongoose database connected ")
-);
-
 // item routes
-app.use("/api", items);
+const apiroutes = require("./routes/api/Index");
+
+app.use("/", apiroutes);
 
 // user routes
 app.use("/user", user);

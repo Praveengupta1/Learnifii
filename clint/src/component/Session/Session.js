@@ -134,7 +134,12 @@ export default function ScrollableTabsButtonForce() {
           </AppBar>
           {groupInfo.groupdata.map((group, index) => (
             <TabPanel key={index} value={value} index={index}>
-              <Follower users={group.followerGroupUser} />
+              <Follower
+                users={group.followers}
+                userdata={groupInfo.user}
+                token={groupInfo.token}
+                id={group._id}
+              />
               <Post
                 id={group._id}
                 token={groupInfo.token}
