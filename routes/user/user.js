@@ -7,6 +7,7 @@ const verifyToken = require("../../config/token");
 const User = require("../../model/user");
 
 router.post("/", (req, res) => {
+  console.log(req.body);
   axios
     .post("https://apilearnifii.herokuapp.com/auth/communitylogin", req.body)
     .then((response) => {

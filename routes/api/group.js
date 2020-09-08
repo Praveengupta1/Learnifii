@@ -9,7 +9,7 @@ Group
   .get("/", verifytoken, (req, res) => {
     jwt.verify(req.token, "secretkey", (err, data) => {
       if (err) {
-        res.statusCode(403).json({ auth: "please login " });
+        res.json({ error: err, message: "unauth" });
       } else {
         Item.find()
           .sort({ date: -1 })

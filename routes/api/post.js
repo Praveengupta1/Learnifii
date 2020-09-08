@@ -94,7 +94,7 @@ Post.post("/create", verifytoken, uploadImage.single("file"), (req, res) => {
                     content: req.body.content,
                   },
                 ],
-                $positon: 0,
+                $position: 0,
               },
             },
           },
