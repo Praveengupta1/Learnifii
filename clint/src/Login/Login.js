@@ -12,13 +12,14 @@ function Login() {
   const dispatch = useDispatch();
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    const data = {
-      email: Email,
-      password: Password,
-      category: Category,
-    };
-    dispatch(setUser(data));
+    if (Email && Password && Category) {
+      const data = {
+        email: Email,
+        password: Password,
+        category: Category,
+      };
+      dispatch(setUser(data));
+    }
   };
 
   return (

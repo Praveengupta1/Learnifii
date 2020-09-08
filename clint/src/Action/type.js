@@ -8,3 +8,4 @@ export const SET_USER = "SET_USER";
 export const LIKE_POST = "LIKE_POST";
 export const FOLLOW = "FOLLOW";
 export const MAKE_COMMENT = "MAKE_COMMENT";
+export const GET_POST = 'GET_POST'

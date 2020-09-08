@@ -1,0 +1,22 @@
+.shareModal {
+    padding: 2px;
+    padding-left: 30%;
+}
+
+.shareModal>.modal-title {
+    padding: 2px
+}
+
+.shareModal>button {
+    outline: 0ch;
+}
+
+.shareIcon {
+    display: flex;
+    justify-content: center;
+}
+
+.shareIcon>* {
+    margin: 5px 15px;
+    cursor: pointer;
+}

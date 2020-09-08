@@ -2,7 +2,7 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Badge from "@material-ui/core/Badge";
 import { indigo } from "@material-ui/core/colors";
 export const useStyles = makeStyles((theme) => ({
-  TabSkeleton : {
+  TabSkeleton: {
     marginTop: "10px",
     flexGrow: 1,
     width: "100%",
@@ -105,6 +105,10 @@ export const useStyles = makeStyles((theme) => ({
         wordSpacing: "5px",
       },
     },
+  },
+  Iconbutton: {
+    '&:focus':{
+    outline: "none"},
   },
   iconstyle: {
     fontSize: 30,

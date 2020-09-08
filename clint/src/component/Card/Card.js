@@ -7,7 +7,6 @@ import {
   Avatar,
   Typography,
 } from "@material-ui/core";
-
 import { useStyles } from "../../assests/style";
 import AvatarGroup from "@material-ui/lab/AvatarGroup";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
@@ -15,11 +14,14 @@ import { makeComment } from "../../Action/actionType";
 import { useDispatch } from "react-redux";
 import CardFooterAction from "./cardFooterAction";
 import MakeAction from "./cardAction";
+
 import "./Card.css";
 
 function Post({ post, user, token }) {
+  console.log(post);
   const classes = useStyles();
   const [isPostId, setisPostId] = useState("");
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -35,7 +37,7 @@ function Post({ post, user, token }) {
         id: isPostId,
         comment: isComment,
       };
-      
+
       dispatch(makeComment({ data: data, token: token }));
       setisComment("");
     }
@@ -97,7 +99,7 @@ function Post({ post, user, token }) {
           <div className="image-card">
             <img
               className="post-image"
-              src={`/api/image/${post.file}`}
+              src={`/post/image/${post.file}`}
               alt=" "
             />
           </div>
@@ -150,7 +152,9 @@ function Post({ post, user, token }) {
                     src={comment.userPhoto}
                   />
                   <div className="comment-people-name">
-                    <h6>{comment.userName}</h6>
+                    <h6 style={{ textTransform: "capitalize" }}>
+                      {comment.userName}
+                    </h6>
                     <p>{comment.comment}</p>
                   </div>
                 </div>

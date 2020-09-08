@@ -170,8 +170,8 @@ label {
   margin: auto 10px;
 }
 
-.comment-people-name h4,
-.comment-people-name p {
+.comment-people-name>h4,
+.comment-people-name>p {
   margin: 0;
   text-transform: capitalize;
 }

@@ -9,6 +9,7 @@ import {
   LIKE_POST,
   FOLLOW,
   MAKE_COMMENT,
+  GET_POST,
 } from "../Action/type";
 
 const initialState = {
@@ -17,9 +18,17 @@ const initialState = {
   msg: null,
   user: null,
   token: null,
+  post: [],
 };
 const itemReducer = (state = initialState, action) => {
+  console.log(action);
   switch (action.type) {
+    case GET_POST:
+      return {
+        ...state,
+        post: action.payload.data,
+        loading: false,
+      };
     case LIKE_POST:
       return {
         ...state,

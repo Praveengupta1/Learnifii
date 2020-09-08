@@ -9,9 +9,24 @@ import {
   LIKE_POST,
   FOLLOW,
   MAKE_COMMENT,
+  GET_POST,
 } from "./type";
 import axios from "axios";
 
+// GET POST BY GROUPID AND PSOTID
+export const getPost = ({ data, token }) => (dispatch) => {
+  const { groupId, postId } = data;
+  axios
+    .get(`/getgroup/${groupId}/${postId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) =>
+      dispatch({
+        type: GET_POST,
+        payload: response.data,
+      })
+    );
+};
 // make a comment
 export const makeComment = ({ data, token }) => (dispatch) => {
   axios

@@ -5,12 +5,18 @@ import { useStyles, StyledBadge } from "../../assests/style";
 import ShareIcon from "@material-ui/icons/Share";
 import { useDispatch } from "react-redux";
 import { followRequest } from "../../Action/actionType";
+import ShareComponent from "../ShareModal/Sharemodal";
 
 const style = { height: "60px", width: "60px" };
 
 function Follower({ users, userdata, token, id }) {
   const [State, setState] = useState("");
   const [GroupId, setGroupId] = useState(id);
+  //share component
+  const [Share, setShare] = useState(false);
+  const handleShareShow = () => setShare(true);
+  const handleShareClose = () => setShare(false);
+
   useEffect(() => {
     const isFollow = users.filter((user) => user.userId === userdata.email);
 
@@ -56,9 +62,14 @@ function Follower({ users, userdata, token, id }) {
         >
           {State}
         </Button>
-        <IconButton aria-label="delete" className={classes.margin}>
+        <IconButton className={classes.Iconbutton} onClick={handleShareShow}>
           <ShareIcon fontSize="large" />
         </IconButton>
+        <ShareComponent
+          show={Share}
+          handleClose={handleShareClose}
+          url={"https://www.google.com"}
+        />
       </div>
     </div>
   );
