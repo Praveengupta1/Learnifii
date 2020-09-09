@@ -76,7 +76,10 @@ function Post({ post, user, token, groupId }) {
           )
         }
         title={
-          <Link to={`/group/${groupId}/${post._id}`}>
+          <Link
+            to={`/group/${groupId}/${post._id}`}
+            style={{ textDecoration: "none", color: "rgba(0, 0, 0, 0.90)" }}
+          >
             {post.userName.replace(/\w\S*/g, function (txt) {
               return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
             })}
