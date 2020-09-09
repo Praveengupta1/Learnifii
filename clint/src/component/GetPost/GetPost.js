@@ -12,22 +12,22 @@ function GetPost({ token, user, loading }) {
   const data = useParams();
   const [state, setstate] = useState([]);
   const dispatch = useDispatch();
-
+  const [groupId, setgroupId] = useState("");
   useEffect(() => {
-    dispatch(getPost({ data, token, user }));
+    dispatch(getPost({ data, token }));
   }, [data, loading]);
 
   const Post = Posts[0];
-
+  console.log(groupId);
   useEffect(() => {
     if (Post) {
+      setgroupId(Post._id);
       setstate(Post.groupPost);
     }
   }, [Posts]);
-  console.log(Post);
   // return <h1>jeje</h1>;
   return state[0] ? (
-    <Card posts={state} token={token} user={user} />
+    <Card posts={state} token={token} user={user} groupId={groupId} />
   ) : (
     <div className="card-skeleton">
       <div className="profile-skeleton">

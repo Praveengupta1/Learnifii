@@ -14,10 +14,11 @@ import { makeComment } from "../../Action/actionType";
 import { useDispatch } from "react-redux";
 import CardFooterAction from "./cardFooterAction";
 import MakeAction from "./cardAction";
+import { Link } from "react-router-dom";
 
 import "./Card.css";
 
-function Post({ post, user, token }) {
+function Post({ post, user, token, groupId }) {
   console.log(post);
   const classes = useStyles();
   const [isPostId, setisPostId] = useState("");
@@ -74,9 +75,13 @@ function Post({ post, user, token }) {
             <MakeAction post={post} token={token} />
           )
         }
-        title={post.userName.replace(/\w\S*/g, function (txt) {
-          return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-        })}
+        title={
+          <Link to={`/group/${groupId}/${post._id}`}>
+            {post.userName.replace(/\w\S*/g, function (txt) {
+              return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+            })}
+          </Link>
+        }
         subheader={dateFormat(post.time)}
       />
 
@@ -112,6 +117,7 @@ function Post({ post, user, token }) {
           token={token}
           username={user.email}
           likes={post.likes}
+          groupId={groupId}
         />
       </CardActions>
       <div className="like-avatar">
@@ -172,11 +178,20 @@ function Post({ post, user, token }) {
   );
 }
 
-function Cards({ posts, user, token }) {
+function Cards({ posts, user, token, groupId }) {
+  console.log(groupId);
   return (
     <Fragment>
       {posts.map((post, i) =>
-        post ? <Post key={i} post={post} token={token} user={user} /> : null
+        post ? (
+          <Post
+            key={i}
+            post={post}
+            token={token}
+            user={user}
+            groupId={groupId}
+          />
+        ) : null
       )}
     </Fragment>
   );

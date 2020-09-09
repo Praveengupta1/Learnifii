@@ -68,7 +68,7 @@ function Follower({ users, userdata, token, id }) {
         <ShareComponent
           show={Share}
           handleClose={handleShareClose}
-          url={"https://www.google.com"}
+          url={"https://frozen-inlet-78997.herokuapp.com/"}
         />
       </div>
     </div>

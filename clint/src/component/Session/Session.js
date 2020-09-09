@@ -147,7 +147,7 @@ export default function ScrollableTabsButtonForce() {
               />
               <Card
                 posts={group.groupPost}
-                id={group._id}
+                groupId={group._id}
                 token={groupInfo.token}
                 user={groupInfo.user}
               />

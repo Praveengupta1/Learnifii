@@ -21,7 +21,6 @@ const initialState = {
   post: [],
 };
 const itemReducer = (state = initialState, action) => {
-  console.log(action);
   switch (action.type) {
     case GET_POST:
       return {

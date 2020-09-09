@@ -16,9 +16,9 @@ function App() {
   ) : (
     <div>
       <Router>
+        <Search />
         <Switch>
           <Route path="/" exact={true}>
-            <Search />
             <Session />
             <Msg />
           </Route>
