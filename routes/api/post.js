@@ -83,7 +83,7 @@ Post.post("/create", verifytoken, uploadImage.single("file"), (req, res) => {
           { _id: req.body.id },
           {
             $push: {
-              groupPost: {
+              posts: {
                 $each: [
                   {
                     userName: authdata.userdata.name.toLowerCase(),
@@ -108,7 +108,7 @@ Post.post("/create", verifytoken, uploadImage.single("file"), (req, res) => {
           { _id: req.body.id },
           {
             $push: {
-              groupPost: {
+              posts: {
                 $each: [
                   {
                     userName: authdata.userdata.name.toLowerCase(),
@@ -139,26 +139,26 @@ Post.post("/update", verifytoken, uploadImage.single("file"), (req, res) => {
       try {
         if (req.file) {
           Item.updateOne(
-            { "groupPost._id": req.body.id },
+            { "posts._id": req.body.id },
             {
-              "groupPost.$.userName": authdata.userdata.name.toLowerCase(),
-              "groupPost.$.userId": authdata.userdata.email.toLowerCase(),
-              "groupPost.$.userPhoto": authdata.userdata.profile_image_url,
-              "groupPost.$.content": req.body.content,
-              "groupPost.$.file": req.file.filename,
-              "groupPost.$.fileType": req.file.contentType,
+              "posts.$.userName": authdata.userdata.name.toLowerCase(),
+              "posts.$.userId": authdata.userdata.email.toLowerCase(),
+              "posts.$.userPhoto": authdata.userdata.profile_image_url,
+              "posts.$.content": req.body.content,
+              "posts.$.file": req.file.filename,
+              "posts.$.fileType": req.file.contentType,
             }
           )
             .then((response) => res.json(response))
             .catch((error) => res.json(error));
         } else {
           Item.updateOne(
-            { "groupPost._id": req.body.id },
+            { "posts._id": req.body.id },
             {
-              "groupPost.$.userName": authdata.userdata.name.toLowerCase(),
-              "groupPost.$.userId": authdata.userdata.email.toLowerCase(),
-              "groupPost.$.userPhoto": authdata.userdata.profile_image_url,
-              "groupPost.$.content": req.body.content,
+              "posts.$.userName": authdata.userdata.name.toLowerCase(),
+              "posts.$.userId": authdata.userdata.email.toLowerCase(),
+              "posts.$.userPhoto": authdata.userdata.profile_image_url,
+              "posts.$.content": req.body.content,
             }
           )
             .then((response) => res.json(response))
@@ -177,8 +177,8 @@ Post.post("/update", verifytoken, uploadImage.single("file"), (req, res) => {
 Post.post("/delete", verifytoken, (req, res) => {
   try {
     Item.updateOne(
-      { groupPost: { $elemMatch: { _id: req.body.id } } },
-      { $pull: { groupPost: { _id: req.body.id } } }
+      { posts: { $elemMatch: { _id: req.body.id } } },
+      { $pull: { posts: { _id: req.body.id } } }
     )
       .then((response) => {
         res.json(response);

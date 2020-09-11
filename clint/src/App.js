@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Login from "./Login/Login";
 import GetPost from "./component/GetPost/GetPost";
+// import Header from "./Header/header";
 function App() {
   const token = useSelector((state) => state.group.token);
   const user = useSelector((state) => state.group.user);

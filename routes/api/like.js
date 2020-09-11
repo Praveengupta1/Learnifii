@@ -9,10 +9,10 @@ Like.post("/", verifytoken, (req, res) => {
     } else {
       try {
         Item.findOne({
-          "groupPost._id": req.body.id,
+          "posts._id": req.body.id,
         })
           .then((response) => {
-            const data = response.groupPost.filter(
+            const data = response.posts.filter(
               (post) => post._id == req.body.id
             );
             const isLiked = data[0].likes.filter(
@@ -21,10 +21,10 @@ Like.post("/", verifytoken, (req, res) => {
 
             isLiked[0]
               ? Item.updateOne(
-                  { "groupPost._id": req.body.id },
+                  { "posts._id": req.body.id },
                   {
                     $pull: {
-                      "groupPost.$.likes": {
+                      "posts.$.likes": {
                         userId: authdata.userdata.email,
                       },
                     },
@@ -38,10 +38,10 @@ Like.post("/", verifytoken, (req, res) => {
                   )
                   .catch((error) => res.json({ success: false }))
               : Item.updateOne(
-                  { "groupPost._id": req.body.id },
+                  { "posts._id": req.body.id },
                   {
                     $push: {
-                      "groupPost.$.likes": {
+                      "posts.$.likes": {
                         $each: [
                           {
                             userId: authdata.userdata.email.toLowerCase(),

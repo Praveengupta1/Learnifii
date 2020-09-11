@@ -35,7 +35,7 @@ router.post("/", (req, res) => {
                 );
               } else {
                 const user = new User({
-                  name: data.name,
+                  name: data.name.toLowerCase(),
                   email: data.email,
                   phone_number: data.phone_number,
                   area: data.area,

@@ -33,7 +33,7 @@ const ItemSchema = new Schema({
       },
     },
   ],
-  groupPost: [
+  posts: [
     {
       time: {
         type: Date,
@@ -95,8 +95,9 @@ const ItemSchema = new Schema({
           },
           likes: [
             {
-              userPhoto: String,
               userName: { type: String, trim: true },
+              userPhoto: String,
+              userId: { type: String, trim: true },
             },
           ],
           time: {
@@ -105,8 +106,10 @@ const ItemSchema = new Schema({
           },
           replies: [
             {
-              content: String,
+              content: { type: String, trim: true },
               userName: { type: String, required: true, trim: true },
+              userId: { type: String, required: true, trim: true },
+              userPhoto: { type: String },
             },
           ],
         },

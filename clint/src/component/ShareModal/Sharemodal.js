@@ -22,7 +22,7 @@ export default function ShareModal({ show, handleClose, url }) {
           <div className="shareIcon">
             <Link
               to={{
-                pathname: `https://api.whatsapp.com/send?url=${url}`,
+                pathname: `https://api.whatsapp.com/send?text=${url}`,
               }}
               target="_blank"
             >

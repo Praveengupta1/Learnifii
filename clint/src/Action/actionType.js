@@ -10,8 +10,37 @@ import {
   FOLLOW,
   MAKE_COMMENT,
   GET_POST,
+  LIKE_COMMENT,
+  REPLY_COMMENT,
 } from "./type";
 import axios from "axios";
+
+//REPLY ON COMMENT
+
+export const replyComment = ({ data, token }) => (dispatch) => {
+  axios
+    .post("/replyoncomment", data, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((res) =>
+      dispatch({
+        type: REPLY_COMMENT,
+      })
+    );
+};
+
+//LIKE ON COMMENT
+export const likeComment = ({ data, token }) => (dispatch) => {
+  axios
+    .post("/likeoncomment", data, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((res) =>
+      dispatch({
+        type: LIKE_COMMENT,
+      })
+    );
+};
 
 // GET POST BY GROUPID AND PSOTID
 export const getPost = ({ data, token }) => (dispatch) => {

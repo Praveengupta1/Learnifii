@@ -9,17 +9,15 @@ import {
 } from "@material-ui/core";
 import { useStyles } from "../../assests/style";
 import AvatarGroup from "@material-ui/lab/AvatarGroup";
-import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import { makeComment } from "../../Action/actionType";
 import { useDispatch } from "react-redux";
 import CardFooterAction from "./cardFooterAction";
 import MakeAction from "./cardAction";
 import { Link } from "react-router-dom";
-
+import Comment from "./comment";
 import "./Card.css";
 
 function Post({ post, user, token, groupId }) {
-  console.log(post);
   const classes = useStyles();
   const [isPostId, setisPostId] = useState("");
 
@@ -153,27 +151,13 @@ function Post({ post, user, token, groupId }) {
         </form>
         <div>
           {post.comments.map((comment) => (
-            <div key={comment._id} className="comment-people">
-              <div className="name">
-                <div style={{ display: "flex" }}>
-                  <Avatar
-                    style={{ height: "30px", width: "30px" }}
-                    src={comment.userPhoto}
-                  />
-                  <div className="comment-people-name">
-                    <h6 style={{ textTransform: "capitalize" }}>
-                      {comment.userName}
-                    </h6>
-                    <p>{comment.comment}</p>
-                  </div>
-                </div>
-                <div>14m ago</div>
-                <div>Reply</div>
-                <div>
-                  <FavoriteBorderIcon />
-                </div>
-              </div>
-            </div>
+            <Comment
+              groupId={groupId}
+              postId={isPostId}
+              comment={comment}
+              token={token}
+              key={comment._id}
+            />
           ))}
         </div>
       </CardContent>

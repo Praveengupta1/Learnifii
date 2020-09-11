@@ -9,7 +9,7 @@ GetPost.get("/:groupId/:postId", verifytoken, (req, res) => {
     try {
       const { groupId, postId } = req.params;
       console.log(req.params);
-      Item.find({ _id: groupId, "groupPost._id": postId }, { "groupPost.$": 1 })
+      Item.find({ _id: groupId, "posts._id": postId }, { "posts.$": 1 })
         .then((response) =>
           res.json({ data: response, message: "one post data" })
         )

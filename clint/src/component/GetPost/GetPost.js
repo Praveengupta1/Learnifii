@@ -18,14 +18,13 @@ function GetPost({ token, user, loading }) {
   }, [data, loading]);
 
   const Post = Posts[0];
-  console.log(groupId);
   useEffect(() => {
     if (Post) {
       setgroupId(Post._id);
-      setstate(Post.groupPost);
+      setstate(Post.posts);
     }
   }, [Posts]);
-  // return <h1>jeje</h1>;
+
   return state[0] ? (
     <Card posts={state} token={token} user={user} groupId={groupId} />
   ) : (

@@ -8,10 +8,10 @@ Comment.post("/", verifytoken, (req, res) => {
     if (err) res.json({ error: err, message: "unauth" });
     try {
       Item.updateOne(
-        { "groupPost._id": req.body.id },
+        { "posts._id": req.body.id },
         {
           $push: {
-            "groupPost.$.comments": {
+            "posts.$.comments": {
               $each: [
                 {
                   userId: authdata.userdata.email,

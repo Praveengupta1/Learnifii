@@ -107,8 +107,9 @@ export const useStyles = makeStyles((theme) => ({
     },
   },
   Iconbutton: {
-    '&:focus':{
-    outline: "none"},
+    "&:focus": {
+      outline: "none",
+    },
   },
   iconstyle: {
     fontSize: 30,
@@ -118,7 +119,7 @@ export const useStyles = makeStyles((theme) => ({
     display: "none",
   },
   cards: {
-    margin: "auto",
+    margin: "20px auto",
     maxWidth: 900,
   },
   media: {

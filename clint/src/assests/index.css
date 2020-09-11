@@ -23,6 +23,7 @@ label {
 }
 
 .search-box {
+  margin-bottom: 20px;
   height: 55px;
   width: 100%;
   box-shadow: 0px 2px 10px rgba(29, 34, 47, 0.15);
@@ -139,7 +140,6 @@ label {
 
 .comment-people {
   margin-top: 20px;
-  display: flex;
   align-items: center;
 }
 

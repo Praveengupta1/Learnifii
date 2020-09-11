@@ -10,6 +10,8 @@ import {
   FOLLOW,
   MAKE_COMMENT,
   GET_POST,
+  LIKE_COMMENT,
+  REPLY_COMMENT,
 } from "../Action/type";
 
 const initialState = {
@@ -83,6 +85,16 @@ const itemReducer = (state = initialState, action) => {
         loading: true,
       };
     case MAKE_COMMENT:
+      return {
+        ...state,
+        loading: true,
+      };
+    case LIKE_COMMENT:
+      return {
+        ...state,
+        loading: true,
+      };
+    case REPLY_COMMENT:
       return {
         ...state,
         loading: true,
