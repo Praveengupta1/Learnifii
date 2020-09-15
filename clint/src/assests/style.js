@@ -119,7 +119,7 @@ export const useStyles = makeStyles((theme) => ({
     display: "none",
   },
   cards: {
-    margin: "20px auto",
+    margin: "40px auto",
     maxWidth: 900,
   },
   media: {

@@ -63,11 +63,19 @@ function Post({ post, user, token, groupId }) {
     let dateFormated = mName + " " + dName;
     return dateFormated;
   };
+  const name = (user) => {
+    let name = user.split(" ");
+    let firstName = name[0].charAt(0).toUpperCase();
+    let secondName = name[1] ? name[1].charAt(0).toUpperCase() : "";
+    return firstName + secondName;
+  };
 
   return (
     <Card key={post._id} className={classes.cards}>
       <CardHeader
-        avatar={<Avatar src={post.userPhoto} className={classes.avatarpost} />}
+        avatar={
+          <Avatar className={classes.avatarpost}>{name(post.userName)}</Avatar>
+        }
         action={
           user.email.trim().toLowerCase() === post.userId && (
             <MakeAction post={post} token={token} />
@@ -124,7 +132,7 @@ function Post({ post, user, token, groupId }) {
       <div className="like-avatar">
         <AvatarGroup max={4}>
           {post.likes.map((likeUser) => (
-            <Avatar key={likeUser._id} src={likeUser.userPhoto} />
+            <Avatar key={likeUser._id}  >{name(likeUser.userName)}</Avatar>
           ))}
         </AvatarGroup>
         {/* <div className="like-name">
@@ -136,11 +144,9 @@ function Post({ post, user, token, groupId }) {
         <form className="comment" onSubmit={handleComment}>
           <div className={classes.comment}>
             <Avatar
-              aria-label="recipe"
               className={classes.avatarpost}
               style={{ height: "40px", width: "40px" }}
-              src={user.profile_image_url}
-            />
+            >{name(user.name)}</Avatar>
             <input
               type="text"
               value={isComment}
@@ -157,6 +163,7 @@ function Post({ post, user, token, groupId }) {
               comment={comment}
               token={token}
               key={comment._id}
+              user={user}
             />
           ))}
         </div>

@@ -1,0 +1,23 @@
+.footer-action {
+  width: 100%;
+}
+
+.footer-action:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.footer-action-like,
+.footer-action-comment,
+.footer-action-share {
+  float: left;
+  width: 33%;
+  text-align: center;
+}
+
+.footer-action-like > .MuiIconButton-root,
+.footer-action-comment > .MuiIconButton-root,
+.footer-action-share > .MuiIconButton-root {
+  outline: none;
+}

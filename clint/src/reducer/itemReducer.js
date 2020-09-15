@@ -19,10 +19,11 @@ const initialState = {
   loading: false,
   msg: null,
   user: null,
-  token: null,
+  token:null,
   post: [],
 };
 const itemReducer = (state = initialState, action) => {
+  console.log(action);
   switch (action.type) {
     case GET_POST:
       return {

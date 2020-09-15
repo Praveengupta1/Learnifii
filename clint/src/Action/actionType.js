@@ -38,6 +38,7 @@ export const likeComment = ({ data, token }) => (dispatch) => {
     .then((res) =>
       dispatch({
         type: LIKE_COMMENT,
+        payload: res,
       })
     );
 };

@@ -9,6 +9,7 @@ import ShareComponent from "../ShareModal/Sharemodal";
 import { likePost } from "../../Action/actionType";
 import { useDispatch } from "react-redux";
 
+import "./FooterAction.css";
 const CardFooterAction = ({ likes, id, groupId, token, username }) => {
   const classes = useStyles();
 
@@ -44,20 +45,26 @@ const CardFooterAction = ({ likes, id, groupId, token, username }) => {
     dispatch(likePost({ data: data, token: token }));
   };
   return (
-    <div>
-      <IconButton onClick={handleAction}>
-        <FavoriteIcon style={actionStyle} />
-      </IconButton>
+    <div className="footer-action">
+      <div className="footer-action-like">
+        <IconButton onClick={handleAction}>
+          <FavoriteIcon style={actionStyle} />
+        </IconButton>
+      </div>
       {/* {post.like ? <label>{post.like.length + " Likes"}</label> : null} */}
-      <IconButton aria-label="comment">
-        <CommentIcon />
-      </IconButton>
+      <div className="footer-action-comment">
+        <IconButton aria-label="comment">
+          <CommentIcon />
+        </IconButton>
+      </div>
       {/* {post.commentSection ? (
         <label>{post.commentSection.length + " comment"}</label>
       ) : null} */}
-      <IconButton aria-label="share" onClick={handleShareShow}>
-        <ShareIcon />
-      </IconButton>
+      <div className="footer-action-share">
+        <IconButton aria-label="share" onClick={handleShareShow}>
+          <ShareIcon />
+        </IconButton>
+      </div>
       {/* {post.noumberOfShare ? (
         <label>{post.noumberOfShare + " Shares"}</label>
       ) : null} */}

@@ -47,6 +47,12 @@ function Follower({ users, userdata, token, id }) {
     dispatch(followRequest({ data: data, token: token }));
   };
   const classes = useStyles();
+  const name = (user) => {
+    let name = user.split(" ");
+    let firstName = name[0].charAt(0).toUpperCase();
+    let secondName = name[1] ? name[1].charAt(0).toUpperCase() : "";
+    return firstName + secondName;
+  };
   return (
     <div className="follower-box">
       <p className="following-heading">Followers</p>
@@ -63,7 +69,7 @@ function Follower({ users, userdata, token, id }) {
                 }}
                 variant="dot"
               >
-                <Avatar src={userdata.profile_image_url} style={style} />
+                <Avatar  style={style} >{name(user.userName)}</Avatar>
               </StyledBadge>
             </Fragment>
           ))}
