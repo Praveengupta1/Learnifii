@@ -120,6 +120,16 @@ function Post({ post, user, token, groupId }) {
         )}
       </CardContent>
 
+      <div className="action-numbers">
+        <div className="action-number-like">
+          {post.likes[0] ? post.likes[0].userName : null}
+          {post.likes[1] ? post.likes[1].userName : null}
+          {" " + post.likes.length + " Likes"}
+        </div>
+        <div className="action-number-comment">
+          {post.comments.length + " Comments"}
+        </div>
+      </div>
       <CardActions>
         <CardFooterAction
           id={post._id}
@@ -132,7 +142,7 @@ function Post({ post, user, token, groupId }) {
       <div className="like-avatar">
         <AvatarGroup max={4}>
           {post.likes.map((likeUser) => (
-            <Avatar key={likeUser._id}  >{name(likeUser.userName)}</Avatar>
+            <Avatar key={likeUser._id}>{name(likeUser.userName)}</Avatar>
           ))}
         </AvatarGroup>
         {/* <div className="like-name">
@@ -146,7 +156,9 @@ function Post({ post, user, token, groupId }) {
             <Avatar
               className={classes.avatarpost}
               style={{ height: "40px", width: "40px" }}
-            >{name(user.name)}</Avatar>
+            >
+              {name(user.name)}
+            </Avatar>
             <input
               type="text"
               value={isComment}
@@ -173,7 +185,6 @@ function Post({ post, user, token, groupId }) {
 }
 
 function Cards({ posts, user, token, groupId }) {
-  console.log(groupId);
   return (
     <Fragment>
       {posts.map((post, i) =>

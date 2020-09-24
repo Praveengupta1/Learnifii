@@ -15,6 +15,7 @@ function Comment({ comment, groupId, postId, token, user }) {
     let secondName = name[1] ? name[1].charAt(0).toUpperCase() : "";
     return firstName + secondName;
   };
+
   const dispatch = useDispatch();
 
   const [isLikeAction, setisLikeAction] = useState("gray");
@@ -22,15 +23,15 @@ function Comment({ comment, groupId, postId, token, user }) {
   useEffect(() => {
     setcommentId(comment._id);
   }, [comment]);
-  useEffect(() => {
-    console.log(comment.likes);
 
+  useEffect(() => {
     const isLikePost = comment.likes.filter(
       (like) => like.userId === user.email
     );
-    console.log(isLikePost);
+
     isLikePost[0] ? setisLikeAction("red") : setisLikeAction("gray");
   }, []);
+
   const handleLike = () => {
     isLikeAction === "red" ? setisLikeAction("gray") : setisLikeAction("red");
     const data = {
@@ -62,6 +63,32 @@ function Comment({ comment, groupId, postId, token, user }) {
     }
   };
 
+  const handleTimeChage = (commentTime) => {
+    const diffTime =
+      Math.floor(Math.abs(new Date() - new Date(commentTime)) / 60000) - 2;
+
+    if (diffTime < 0) return `0min ago`;
+    if (diffTime < 60 && diffTime > 0) {
+      return `${diffTime}min ago`;
+    }
+    if (diffTime >= 60) {
+      const hour = Math.floor(diffTime / 60);
+
+      if (hour < 25) return `${hour}h ago`;
+
+      if (hour > 24) {
+        const day = Math.floor(hour / 24);
+        if (day < 366) {
+          return `${day}day ago `;
+        }
+        if (day > 364) {
+          const year = Math.floor(day / 365);
+          return `${year}year ago `;
+        }
+      }
+    }
+  };
+
   return (
     <>
       <div className="post-comment">
@@ -80,7 +107,7 @@ function Comment({ comment, groupId, postId, token, user }) {
           <span className="post-comment-reply-span" onClick={handleReply}>
             Reply
           </span>
-          <span className="time-stamp">4m ago</span>
+          <span className="time-stamp">{handleTimeChage(comment.time)}</span>
         </div>
       </div>
       {comment.replies.map((reply, i) => (
@@ -98,7 +125,7 @@ function Comment({ comment, groupId, postId, token, user }) {
             <span className="post-comment-reply-span" onClick={handleReply}>
               Reply
             </span>
-            <span className="time-stamp">4m ago</span>
+            <span className="time-stamp">{handleTimeChage(reply.time)}</span>
           </div>
         </div>
       ))}
@@ -120,41 +147,6 @@ function Comment({ comment, groupId, postId, token, user }) {
         </div>
       </div>
     </>
-    // <div className="comment-people">
-    //   <div className="name">
-    //     <div style={{ display: "flex" }}>
-    //       <Avatar
-    //         style={{ height: "30px", width: "30px" }}
-    //         src={comment.userPhoto}
-    //       />
-    //       <div className="comment-people-name">
-    //         <h6 style={{ textTransform: "capitalize" }}>{comment.userName}</h6>
-    //         <p>{comment.comment}</p>
-    //       </div>
-    //     </div>
-    //     <div>14m ago</div>
-    //     <div>
-    //       <button onClick={handleReply}>Reply</button>
-    //     </div>
-    //     <div>
-    //       <IconButton onClick={handlelike}>
-    //         <FavoriteBorderIcon />
-    //       </IconButton>
-    //     </div>
-    //   </div>
-    //   <div className="comment-reply" style={{ display: State }}>
-    //     <form>
-    //       <input
-    //         type="text"
-    //         value={reply}
-    //         onChange={(e) => setreply(e.target.value)}
-    //       />
-    //       <button type="submit" onClick={makeReply}>
-    //         Reply
-    //       </button>
-    //     </form>
-    //   </div>
-    // </div>
   );
 }
 

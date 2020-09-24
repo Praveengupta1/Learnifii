@@ -20,7 +20,6 @@ Comment.post("/", verifytoken, (req, res) => {
                   comment: req.body.comment,
                 },
               ],
-              $position: 0,
             },
           },
         }

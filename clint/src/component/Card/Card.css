@@ -13,3 +13,14 @@
 .comment-reply>form>button {
     display: none;
 }
+
+.action-numbers {
+    display: flex;
+}
+
+.action-numbers>div {
+    margin-left: 20px;
+    font-weight: 600;
+    color: gray;
+    text-transform: capitalize;
+}

@@ -22,7 +22,6 @@ Reply_Comment.post("/", tokenverify, (req, res) => {
                   userPhoto: authdata.userdata.profile_image_url,
                 },
               ],
-              $position: 0,
             },
           },
         },
