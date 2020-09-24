@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Search from "./component/Search/Search";
 import Session from "./component/Session/Session";
 import Msg from "./component/successModal";
@@ -13,12 +13,14 @@ import { useSelector } from "react-redux";
 import Login from "./Login/Login";
 import GetPost from "./component/GetPost/GetPost";
 import Header from "./component/Header/header";
+import LoginModal from "./component/Header/component/LoginModal/index";
 
 function App() {
   const token = useSelector((state) => state.user.token);
   const user = useSelector((state) => state.user.user);
   const loading = useSelector((state) => state.group.loading);
-
+  const [loginModal, setloginModal] = useState(true);
+  const handleLoginModal = () => setloginModal(true);
   return (
     <div>
       <Router>
@@ -34,13 +36,18 @@ function App() {
             }}
           />
           <Route path="/clubs" exact={true}>
+            {!token && handleLoginModal}
             {token ? (
               <>
                 <Session />
                 <Msg />
               </>
             ) : (
-              <h1>Login Plz</h1>
+              <LoginModal
+                show={loginModal}
+                onHide={() => setloginModal(false, "login")}
+                type={"login"}
+              />
             )}
           </Route>
 
