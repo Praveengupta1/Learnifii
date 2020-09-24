@@ -181,7 +181,7 @@ button#submit-review-btn {
   float: none;
 }
 .rate:not(:checked) > label::before {
-  content: '★ ';
+  content: 'â ';
   position: relative;
   top: -10px;
   left: 2px;

@@ -1,5 +1,6 @@
 import { ACCESS_TOKEN } from "./constants";
-import { notify } from "utils/notifications";
+import { notify } from "../utils/notifications";
+import { setUserAndToken } from "../../../Action/userAction";
 import api, { loginFB, signinGoogle } from "./api";
 import {
   FETCHING_CURRENT_USER,
@@ -20,7 +21,7 @@ import {
   FETCHED_WISH_LIST_ARRAY,
   POST_WISH_LIST_ARRAY,
   DELETE_WISH_LIST_ARRAY,
-} from "./constants";
+} from "./actionType";
 import { data } from "jquery";
 
 const fetchingCurrentUser = () => ({
@@ -131,10 +132,12 @@ export const getProfile = () => (dispatch, getState) => {
     dispatch(fetchingCurrentUserFailed({ error: "No access token set." }));
     return Promise.reject(new Error("No access token set."));
   }
+
   return api()
     .getUserProfile()
     .then((response) => {
       const { data } = response;
+      dispatch(setUserAndToken(data));
       dispatch(fetchedUserProfile({ data }));
       return Promise.resolve(data);
     })
@@ -174,10 +177,12 @@ export const updateProfile = (params) => (dispatch, getState) => {
 };
 export const getCurrentUser = () => (dispatch, getState) => {
   dispatch(fetchingCurrentUser());
+
   if (!localStorage.getItem(ACCESS_TOKEN)) {
     dispatch(fetchingCurrentUserFailed({ error: "No access token set." }));
     return Promise.reject(new Error("No access token set."));
   }
+
   return api(getState())
     .getCurrentUser()
     .then((response) => {

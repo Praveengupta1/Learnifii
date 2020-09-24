@@ -1,26 +1,26 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { Modal } from 'react-bootstrap';
-import { withRouter } from 'react-router';
+import React from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { Modal } from "react-bootstrap";
+import { withRouter } from "react-router";
 import {
   login,
   signup,
   loginFacebook,
-  loginGoogle,
-} from 'containers/App/modules/actions';
-import Button from 'components/Buttons';
-import SocialLogin from './SocialLogin';
-import LoginForm from './LoginForm';
-import SignupForm from './SignupForm';
-import './styles.scss';
+  loginGoogle
+} from "../../containers/actions";
+import Button from "../Button/index";
+import SocialLogin from "./SocialLogin";
+import LoginForm from "./LoginForm";
+import SignupForm from "./SignupForm";
+import "./styles.scss";
 
 class LoginModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      type: 'login',
-      prevShow: false,
+      type: "login",
+      prevShow: false
     };
   }
 
@@ -30,13 +30,13 @@ class LoginModal extends React.Component {
       // if modal has just opened set its type to prop received from parent
       nextState = {
         type: nextProps.type,
-        prevShow: nextProps.show,
+        prevShow: nextProps.show
       };
     } else {
       // keep local type
       nextState = {
         type: prevState.type,
-        prevShow: nextProps.show,
+        prevShow: nextProps.show
       };
     }
     return nextState;
@@ -66,7 +66,7 @@ class LoginModal extends React.Component {
       >
         <Modal.Body>
           <div className="login-content">
-            {type === 'login' ? (
+            {type === "login" ? (
               <React.Fragment>
                 <h1 className="login-title">Login to Learnifii</h1>
                 <SocialLogin
@@ -89,7 +89,7 @@ class LoginModal extends React.Component {
                     variant="link"
                     disabled={isFetching}
                     onClick={() => {
-                      this.setState({ type: 'signup' });
+                      this.setState({ type: "signup" });
                     }}
                   >
                     Sign up here
@@ -122,7 +122,7 @@ class LoginModal extends React.Component {
                     variant="link"
                     disabled={isFetching}
                     onClick={() => {
-                      this.setState({ type: 'login' });
+                      this.setState({ type: "login" });
                     }}
                   >
                     Login here
@@ -146,17 +146,17 @@ LoginModal.propTypes = {
   onLogin: PropTypes.func,
   isFetching: PropTypes.bool,
   onLoginFacebook: PropTypes.func.isRequired,
-  onLoginGoogle: PropTypes.func.isRequired,
+  onLoginGoogle: PropTypes.func.isRequired
 };
 
 export default connect(
-  state => ({
-    isFetching: state.auth.fetching,
+  (state) => ({
+    isFetching: state.auth.fetching
   }),
   {
     onLogin: login,
     onSignup: signup,
     onLoginFacebook: loginFacebook,
-    onLoginGoogle: loginGoogle,
-  },
+    onLoginGoogle: loginGoogle
+  }
 )(withRouter(LoginModal));

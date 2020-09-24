@@ -1,11 +1,11 @@
-import ajax from "utils/api";
+import ajax from "../utils/api";
 import { ACCESS_TOKEN } from "./constants";
 import { API_V1_URL } from "./constants";
-import { post } from "utils/requestUtils";
+import { post } from "../utils/requestUtils";
 
 export default (state = {}) => {
-  const { baseURL, createAPI } = ajax(state);
-  console.log(baseURL);
+  const { createAPI } = ajax(state);
+  const baseURL = "https://learnifii-web.herokuapp.com";
   let config = {
     baseURL,
   };

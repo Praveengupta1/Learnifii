@@ -6,17 +6,17 @@ import { Link } from "react-router-dom";
 import _ from "lodash";
 import $ from "jquery";
 import classnames from "classnames";
-import LogoImage from "../assests/img/logo";
-import { sitePagesInfo } from "./constants";
+import LogoImage from "./assets/logo.jpeg";
+import { sitePagesInfo, blogRedirectUrl } from "./containers/constants";
 import { ButtonToolbar, Dropdown } from "react-bootstrap";
-import Button from "./Buttons/index";
-import LoginModal from "./LoginModal/index";
-import Avatar from "./Avatar/index";
-import { logout } from "./actions";
+import Button from "./component/Button/index";
+import LoginModal from "./component/LoginModal/index";
+import Avatar from "./component/Avatar/index";
+import { logout } from "./containers/actions";
 import mixpanel from "mixpanel-browser";
 import { MixpanelProvider, MixpanelConsumer } from "react-mixpanel";
 import { hotjar } from "react-hotjar";
-
+import "./_common.scss";
 hotjar.initialize("1535274", "6");
 
 mixpanel.init("2a6714e6ecf66ce239038f5685ac2982");
@@ -181,6 +181,7 @@ class Header extends React.Component {
                           <img
                             src={profile.data[0].profile_image_url}
                             className="header-profile-image"
+                            style={{ width: "30px" }}
                           />
                         ) : (
                           <label className="avatar-name">
@@ -327,6 +328,7 @@ class Header extends React.Component {
     );
   }
 }
+
 Header.propTypes = {
   match: PropTypes.shape({
     path: PropTypes.string,

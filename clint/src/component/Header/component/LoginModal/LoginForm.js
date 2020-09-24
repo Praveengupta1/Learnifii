@@ -1,16 +1,16 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import { Form } from 'react-bootstrap';
-import Button from 'components/Buttons';
-import Spinner from 'components/Spinner';
+import React from "react";
+import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
+import { Form } from "react-bootstrap";
+import Button from "../Button/index";
+import Spinner from "../Spinner";
 
 class LoginForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
-      password: '',
+      email: "",
+      password: ""
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -22,7 +22,7 @@ class LoginForm extends React.Component {
     const inputValue = target.value;
 
     this.setState({
-      [inputName]: inputValue,
+      [inputName]: inputValue
     });
   }
 
@@ -60,11 +60,15 @@ class LoginForm extends React.Component {
             onChange={this.handleInputChange}
             required
           />
-        <strong><p style={{textAlign: 'right'}}><Link to={{ pathname: `/forgotpassword` }}>Forgot Password</Link></p></strong>
+          <strong>
+            <p style={{ textAlign: "right" }}>
+              <Link to={{ pathname: `/forgotpassword` }}>Forgot Password</Link>
+            </p>
+          </strong>
         </Form.Group>
         <Button type="submit" variant="warning" block disabled={isFetching}>
           {!isFetching ? (
-            'Login'
+            "Login"
           ) : (
             <Spinner theme="dark" text="Please wait..." />
           )}
@@ -76,7 +80,7 @@ class LoginForm extends React.Component {
 LoginForm.propTypes = {
   onLogin: PropTypes.func,
   onHide: PropTypes.func,
-  isFetching: PropTypes.bool,
+  isFetching: PropTypes.bool
 };
 
 export default LoginForm;

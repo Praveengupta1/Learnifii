@@ -46,10 +46,13 @@ export default function ScrollableTabsButtonForce() {
     setValue(newValue);
   };
   const dispatch = useDispatch();
-  const groupInfo = useSelector((state) => state.group);
+  const state = useSelector((state) => state);
 
+  const groupInfo = state.group;
+  const token = state.user.token;
+  const user = state.user.user;
   useEffect(() => {
-    dispatch(fetchData(groupInfo.token));
+    dispatch(fetchData(token));
   }, [dispatch, groupInfo.loading, groupInfo.token]);
 
   return (
@@ -136,20 +139,16 @@ export default function ScrollableTabsButtonForce() {
             <TabPanel key={index} value={value} index={index}>
               <Follower
                 users={group.followers}
-                userdata={groupInfo.user}
-                token={groupInfo.token}
+                userdata={user}
+                token={token}
                 id={group._id}
               />
-              <Post
-                id={group._id}
-                token={groupInfo.token}
-                user={groupInfo.user}
-              />
+              <Post id={group._id} token={token} user={user} />
               <Card
                 posts={group.posts}
                 groupId={group._id}
-                token={groupInfo.token}
-                user={groupInfo.user}
+                token={token}
+                user={user}
               />
             </TabPanel>
           ))}
