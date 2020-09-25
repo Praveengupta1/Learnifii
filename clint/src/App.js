@@ -28,7 +28,7 @@ function App() {
     <div>
       <Router>
         <Header />
-        <Search />
+
         <Switch>
           <Route
             path="/home"
@@ -42,6 +42,7 @@ function App() {
             {!token && handleLoginModal}
             {token ? (
               <>
+                <Search />
                 <Session />
                 <Msg />
               </>
