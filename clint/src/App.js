@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Search from "./component/Search/Search";
 import Session from "./component/Session/Session";
 import Msg from "./component/successModal";
@@ -10,12 +10,15 @@ import {
   Redirect,
 } from "react-router-dom";
 import { useSelector } from "react-redux";
-import Login from "./Login/Login";
+
 import GetPost from "./component/GetPost/GetPost";
 import Header from "./component/Header/header";
 import LoginModal from "./component/Header/component/LoginModal/index";
-
+import { getCurrentUser } from "./component/Header/containers/actions";
+import { useDispatch } from "react-redux";
 function App() {
+  const dispatch = useDispatch();
+  useEffect(() => dispatch(getCurrentUser()), [dispatch]);
   const token = useSelector((state) => state.user.token);
   const user = useSelector((state) => state.user.user);
   const loading = useSelector((state) => state.group.loading);
@@ -52,7 +55,11 @@ function App() {
           </Route>
 
           <Route path="/group/:groupId/:postId">
-            <GetPost token={token} user={user} loading={loading} />
+            {!token ? (
+              <Redirect to="/" />
+            ) : (
+              <GetPost token={token} user={user} loading={loading} />
+            )}
           </Route>
         </Switch>
       </Router>

@@ -106,6 +106,7 @@ const ItemSchema = new Schema({
           },
           replies: [
             {
+              time: { type: Date, default: new Date().toString() },
               content: { type: String, trim: true },
               userName: { type: String, required: true, trim: true },
               userId: { type: String, required: true, trim: true },

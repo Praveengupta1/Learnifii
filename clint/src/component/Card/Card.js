@@ -6,6 +6,7 @@ import {
   CardActions,
   Avatar,
   Typography,
+  CardMedia,
 } from "@material-ui/core";
 import { useStyles } from "../../assests/style";
 import AvatarGroup from "@material-ui/lab/AvatarGroup";
@@ -101,22 +102,32 @@ function Post({ post, user, token, groupId }) {
           </Typography>
         )}
         {post.fileType === "image/png" && (
-          <div className="image-card">
-            <img
-              className="post-image"
-              src={`/post/image/${post.file}`}
-              alt=" "
-            />
-          </div>
+          <CardMedia
+            className={classes.media}
+            image={`/post/image/${post.file}`}
+            title="post image"
+          />
+          // <div className="image-card">
+          //   <img
+          //     className="post-image"
+          //     src=
+          //     alt=" "
+          //   />
+          // </div>
         )}
         {post.fileType === "image/jpeg" && (
-          <div className="image-card">
-            <img
-              className="post-image"
-              src={`/post/image/${post.file}`}
-              alt=" "
-            />
-          </div>
+          <CardMedia
+            className={classes.media}
+            image={`/post/image/${post.file}`}
+            title="post image"
+          />
+          // <div className="image-card">
+          //   <img
+          //     className="post-image"
+          //     src={`/post/image/${post.file}`}
+          //     alt=" "
+          //   />
+          // </div>
         )}
       </CardContent>
 

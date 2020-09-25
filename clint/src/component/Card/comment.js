@@ -67,7 +67,7 @@ function Comment({ comment, groupId, postId, token, user }) {
     const diffTime =
       Math.floor(Math.abs(new Date() - new Date(commentTime)) / 60000) - 2;
 
-    if (diffTime < 0) return `0min ago`;
+    if (diffTime <= 0) return `0min ago`;
     if (diffTime < 60 && diffTime > 0) {
       return `${diffTime}min ago`;
     }

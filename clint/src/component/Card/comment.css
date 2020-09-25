@@ -57,6 +57,8 @@
 
 .time-stamp {
   margin-left: 100px;
+  max-width: 100px;
+  min-width: 100px;
 }
 
 .post-comment-reply {
