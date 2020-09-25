@@ -26,23 +26,27 @@ function GetPost({ token, user, loading }) {
   }, [Posts]);
 
   return state[0] ? (
-    <Card posts={state} token={token} user={user} groupId={groupId} />
+    <div style={{ marginTop: "100px" }}>
+      <Card posts={state} token={token} user={user} groupId={groupId} />
+    </div>
   ) : (
-    <div className="card-skeleton">
-      <div className="profile-skeleton">
-        <Skeleton variant="circle" height={60} width={60} />
-        <div className="discreption-skeleton">
-          <Skeleton variant="rect" height={20} width={250} />
-          <Skeleton variant="rect" height={20} width={250} />
+    <div style={{ marginTop: "100px" }}>
+      <div className="card-skeleton">
+        <div className="profile-skeleton">
+          <Skeleton variant="circle" height={60} width={60} />
+          <div className="discreption-skeleton">
+            <Skeleton variant="rect" height={20} width={250} />
+            <Skeleton variant="rect" height={20} width={250} />
+          </div>
         </div>
-      </div>
-      <div className="image-skeleton">
-        <Skeleton variant="rect" height={400} />
-      </div>
-      <div className="action-skeleton">
-        <Skeleton variant="rect" width={100} height={30} />
-        <Skeleton variant="rect" width={100} height={30} />
-        <Skeleton variant="rect" width={100} height={30} />
+        <div className="image-skeleton">
+          <Skeleton variant="rect" height={400} />
+        </div>
+        <div className="action-skeleton">
+          <Skeleton variant="rect" width={100} height={30} />
+          <Skeleton variant="rect" width={100} height={30} />
+          <Skeleton variant="rect" width={100} height={30} />
+        </div>
       </div>
     </div>
   );
