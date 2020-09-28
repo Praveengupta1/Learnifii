@@ -1,6 +1,6 @@
 import { ACCESS_TOKEN } from "./constants";
 import { notify } from "../utils/notifications";
-import { setUserAndToken } from "../../../Action/userAction";
+import { setUserAndToken, cleanUserAndToken } from "../../../Action/userAction";
 import api, { loginFB, signinGoogle } from "./api";
 import {
   FETCHING_CURRENT_USER,
@@ -180,7 +180,7 @@ export const getCurrentUser = () => (dispatch, getState) => {
 
   if (!localStorage.getItem(ACCESS_TOKEN)) {
     dispatch(fetchingCurrentUserFailed({ error: "No access token set." }));
-    return Promise.reject(new Error("No access token set."));
+    return Promise.reject("No access token set.");
   }
 
   return api(getState())
@@ -382,6 +382,7 @@ export const logout = () => (dispatch) => {
   dispatch(logoutUser());
   dispatch(fetchedUserProfile(null));
   dispatch(postedWishList({}));
+  dispatch(cleanUserAndToken());
   dispatch(postedWishListArray([]));
   localStorage.removeItem(ACCESS_TOKEN);
   notify("Logged out successfully.", "success");
