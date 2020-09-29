@@ -24,6 +24,8 @@ Group
       if (err) {
         res.json({ status: 403, messsage: "unauth" });
       } else {
+        const { groupName } = req.body;
+        console.log(groupName);
         const item = new Item({
           groupName: req.body.groupName.toLowerCase(),
         });

@@ -10,10 +10,11 @@ Follow.post("/", verifytoken, (req, res) => {
     } else {
       try {
         Item.findOne({
+          _id: req.body.id,
           "followers.userId": authdata.userdata.email.toLowerCase(),
         })
           .then((response) => {
-            console.log(req.body.id);
+            console.log(response);
             !response
               ? Item.updateOne(
                   { _id: req.body.id },
