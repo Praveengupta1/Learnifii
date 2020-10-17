@@ -8,8 +8,9 @@ const User = require("../../model/user");
 
 router.post("/", (req, res) => {
   console.log(req.body);
-  User.findOne({ email: req.body.email.trim() })
+  User.findOne({ email: req.body.email.toLowerCase().trim() })
     .then((userdata) => {
+      console.log("userdata ");
       console.log(userdata);
       if (userdata) {
         jwt.sign({ userdata }, "secretkey", (err, token) => {
@@ -19,34 +20,23 @@ router.post("/", (req, res) => {
           });
         });
       } else {
+        console.log("userdata 1");
         const user = new User({
-          name: data.name.toLowerCase(),
-          email: data.email,
-          phone_number: data.phone_number,
-          area: data.area,
-          city: data.city,
-          profile_image_url: data.profile_image_url,
+          name: req.body.name.toLowerCase(),
+          email: req.body.email,
+          phone_number: req.body.phone_number,
+          area: req.body.area,
+          city: req.body.city,
+          profile_image_url: req.body.profile_image_url,
         });
 
         user.save();
-
-        res.json({ token: token, user: user });
+        jwt.sign({ userdata }, "secretkey", (err, token) => {
+          res.json({ token: token, user: user });
+        });
       }
     })
     .catch((err) => console.log("er" + err));
-});
-
-router.post("/verify", verifyToken, (req, res) => {
-  jwt.verify(req.token, "secretkey", (err, authdata) => {
-    if (err) {
-      res.sendStatus(403);
-    } else {
-      res.json({
-        message: "Post created...",
-        authdata,
-      });
-    }
-  });
 });
 
 module.exports = router;
