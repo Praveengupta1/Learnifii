@@ -18,6 +18,7 @@ Comment.post("/", verifytoken, (req, res) => {
                   userName: authdata.userdata.name,
                   userPhoto: authdata.userdata.profile_image_url,
                   comment: req.body.comment,
+                  time: new Date().toString(),
                 },
               ],
               $position: 0,

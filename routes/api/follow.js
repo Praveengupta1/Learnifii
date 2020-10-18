@@ -24,6 +24,7 @@ Follow.post("/", verifytoken, (req, res) => {
                         userId: authdata.userdata.email.toLowerCase(),
                         userName: authdata.userdata.name.toLowerCase(),
                         userPhoto: authdata.userdata.profile_image_url,
+                        date: new Date(),
                       },
                     },
                   },

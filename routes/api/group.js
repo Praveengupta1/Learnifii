@@ -28,10 +28,13 @@ Group
         console.log(groupName);
         const item = new Item({
           groupName: req.body.groupName.toLowerCase(),
+          date: new Date(),
         });
 
         try {
-          Item.findOne({ groupName: req.body.groupName.toLowerCase() })
+          Item.findOne({
+            groupName: req.body.groupName.toLowerCase(),
+          })
             .then((response) => {
               response
                 ? res.json({ massage: "already exists", response })

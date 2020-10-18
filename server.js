@@ -7,9 +7,9 @@ const cors = require("cors");
 const user = require("./routes/user/user");
 
 //bodyparser Middleware
+app.use(cors({ credentials: true, origin: true }));
 
 app.use(bodyParser.json());
-app.use(cors());
 // item routes
 const apiroutes = require("./routes/api/Index");
 

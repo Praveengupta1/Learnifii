@@ -16,6 +16,7 @@ Reply_Comment.post("/", tokenverify, (req, res) => {
             "posts.$[post].comments.$[comment].replies": {
               $each: [
                 {
+                  time: new Date().toString(),
                   content: req.body.content,
                   userId: authdata.userdata.email,
                   userName: authdata.userdata.name,

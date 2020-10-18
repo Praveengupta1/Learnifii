@@ -92,6 +92,7 @@ Post.post("/create", verifytoken, uploadImage.single("file"), (req, res) => {
                     fileType: req.file.contentType,
                     userPhoto: authdata.userdata.profile_image_url,
                     content: req.body.content,
+                    time: new Date().toString(),
                   },
                 ],
                 $position: 0,
@@ -113,7 +114,7 @@ Post.post("/create", verifytoken, uploadImage.single("file"), (req, res) => {
                   {
                     userName: authdata.userdata.name.toLowerCase(),
                     userId: authdata.userdata.email.toLowerCase(),
-
+                    time: new Date().toString(),
                     userPhoto: authdata.userdata.profile_image_url,
                     content: req.body.content,
                   },
