@@ -6,16 +6,10 @@ const Item = require("../../model/Item");
 
 Group
   // get data
-  .get("/", verifytoken, (req, res) => {
-    jwt.verify(req.token, "secretkey", (err, data) => {
-      if (err) {
-        res.json({ error: err, message: "unauth" });
-      } else {
-        Item.find()
-          .sort({ date: -1 })
-          .then((item) => res.json(item));
-      }
-    });
+  .get("/", (req, res) => {
+    Item.find()
+      .sort({ date: -1 })
+      .then((item) => res.json(item));
   })
 
   // create group route
