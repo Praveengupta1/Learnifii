@@ -75,7 +75,7 @@ Post.get("/image/:filename", (req, res) => {
 Post.post("/create", verifytoken, uploadImage.single("file"), (req, res) => {
   jwt.verify(req.token, "secretkey", (err, authdata) => {
     if (err) {
-      res.statusCode({ status: 403, message: "unauthroization" });
+      res.send({ status: 403, message: "unauthroization" });
     } else {
       if (req.file) {
         console.log("with file ");
@@ -91,7 +91,7 @@ Post.post("/create", verifytoken, uploadImage.single("file"), (req, res) => {
                     file: req.file.filename,
                     fileType: req.file.contentType,
                     userPhoto: authdata.userdata.profile_image_url,
-                    content: req.body.content,
+                    content: JSON.parse(req.body.content),
                     time: new Date().toString(),
                   },
                 ],
@@ -104,7 +104,6 @@ Post.post("/create", verifytoken, uploadImage.single("file"), (req, res) => {
           .then((response) => res.json(response))
           .catch((error) => res.json(error));
       } else {
-        console.log("no file ");
         Item.updateOne(
           { _id: req.body.id },
           {
@@ -116,7 +115,7 @@ Post.post("/create", verifytoken, uploadImage.single("file"), (req, res) => {
                     userId: authdata.userdata.email.toLowerCase(),
                     time: new Date().toString(),
                     userPhoto: authdata.userdata.profile_image_url,
-                    content: req.body.content,
+                    content: JSON.parse(req.body.content),
                   },
                 ],
                 $position: 0,

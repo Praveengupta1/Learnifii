@@ -21,7 +21,6 @@ Comment.post("/", verifytoken, (req, res) => {
                   time: new Date().toString(),
                 },
               ],
-              $position: 0,
             },
           },
         }

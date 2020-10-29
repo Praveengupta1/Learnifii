@@ -7,6 +7,7 @@ Reply_Comment.post("/", tokenverify, (req, res) => {
   jwt.verify(req.token, "secretkey", (err, authdata) => {
     if (err) res.json({ message: "unauth", error: err });
     else {
+      console.log(req.body);
       Item.updateOne(
         {
           _id: req.body.id,

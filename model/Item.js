@@ -58,10 +58,12 @@ const ItemSchema = new Schema({
       fileType: {
         type: String,
       },
-      content: {
-        type: String,
-        trim: true,
-      },
+      content: [
+        {
+          text: String,
+          key: String,
+        },
+      ],
       location: {
         type: String,
       },
