@@ -118,6 +118,7 @@ Post.post("/create", verifytoken, uploadImage.single("file"), (req, res) => {
                     content: JSON.parse(req.body.content),
                   },
                 ],
+
                 $position: 0,
               },
             },
@@ -137,6 +138,7 @@ Post.post("/update", verifytoken, uploadImage.single("file"), (req, res) => {
     if (err) res.statusCode(403).json({ error: err, message: "unauth" });
     else {
       try {
+        console.log(req.body);
         if (req.file) {
           Item.updateOne(
             { "posts._id": req.body.id },
@@ -144,7 +146,7 @@ Post.post("/update", verifytoken, uploadImage.single("file"), (req, res) => {
               "posts.$.userName": authdata.userdata.name.toLowerCase(),
               "posts.$.userId": authdata.userdata.email.toLowerCase(),
               "posts.$.userPhoto": authdata.userdata.profile_image_url,
-              "posts.$.content": req.body.content,
+              "posts.$.content": JSON.parse(req.body.content),
               "posts.$.file": req.file.filename,
               "posts.$.fileType": req.file.contentType,
             }
@@ -158,7 +160,7 @@ Post.post("/update", verifytoken, uploadImage.single("file"), (req, res) => {
               "posts.$.userName": authdata.userdata.name.toLowerCase(),
               "posts.$.userId": authdata.userdata.email.toLowerCase(),
               "posts.$.userPhoto": authdata.userdata.profile_image_url,
-              "posts.$.content": req.body.content,
+              "posts.$.content": JSON.parse(req.body.content),
             }
           )
             .then((response) => res.json(response))

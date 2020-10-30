@@ -64,6 +64,7 @@ const ItemSchema = new Schema({
           key: String,
         },
       ],
+
       location: {
         type: String,
       },
